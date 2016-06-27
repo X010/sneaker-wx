@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="lib/jquery-weui.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+<!--TAB BAR END-->
+
+<script type="text/html" id="tempUserHeader">
+    <div class="mui-uc-header">
+        <%if( data.mode=='B2C'){%>
+        <div class="item-avt icon icon-person"></div>
+        <div class="item-username"><%=data.username%> </div>
+        <div class="item-level">
+            <span class="badge badge-<%=data.vip_level%>"><%=data.vip_level_name%></span>
+        </div>
+        <div class="item-des">
+            过期时间：<%=data.vip_end_date%> &nbsp;&nbsp; 物流赠送费用：<%=data.vip_logistics%> 元
+        </div>
+        <%}else{%>
+        <div class="item-avt icon icon-person"></div>
+        <div class="item-username"><%=data.username%></div>
+        <div class="item-company"><%=data.com.name%></div>
+        <div class="item-des">
+            <span class="badge badge-negative"><%=data.com.typeStr%></span>
+        </div>
+        <%}%>
+    </div>
+</script>
+
+<div class="content">
+    <div class="mui-panel" id="containerUserHeader">
+
+    </div>
+
+    <div class="mui-panel">
+        <div>
+            <ul class="table-view">
+                <li class="table-view-cell">
+                    <a class="navigate-right" href="order.html">
+                        我的订单
+                    </a>
+                </li>
+                <li class="table-view-cell">
+                    <a class="navigate-right" href="address.html">
+                        收货地址
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mui-panel" id="panelVipProduct" style="display: none;">
+        <div>
+            <ul class="table-view">
+                <li class="table-view-cell">
+                    <a class="navigate-right" href="vip_product.html">
+                        会员购买
+                    </a>
+                </li>
+                <li class="table-view-cell">
+                    <a class="navigate-right" href="vip_order.html">
+                        购买记录
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mui-panel">
+        <div>
+            <ul class="table-view">
+                <!--
+                <li class="table-view-cell">
+                    <a class="navigate-right" href="supplier_detail.html">
+                        商城简介
+                    </a>
+                </li>
+                <li class="table-view-cell">
+                    <a class="navigate-right" href="contact.html">
+                        联系客服
+                    </a>
+                </li>-->
+                <li class="table-view-cell">
+                    <a class="navigate-right" href="feedback_add.html">
+                        意见反馈
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content-padded"><a class="btn btn-block" href="#" id="btn-cs" style="color:#D32F2F;display:none;"></a></div>
+    <div class="content-padded"><button class="btn btn-block" onclick="btnLogoutAct();">退出登录</button></div>
+    <div class="content-padded"><button class="btn btn-block" onclick="unbindWeixin();">解除绑定</button></div>
+
+    <div class="mui-copyright">&copy;北京亚信通科技有限公司</div>
+
+</div>
+
+<script type="text/javascript">
+
+    $(function(){
+        $('title').text(getLocalCache('shopName'));
+        if(getLocalCache('SHOPMODE')=='B2B') {
+            $('#btn-cs').html('客服热线：' + getLocalCache("cs_phone")).attr('href', 'tel://' + getLocalCache("cs_phone")).show();
+        }
+
+        //UI处理
+        $("#mainTabUC").addClass("active");
+
+        $.showUserInfo("tempUserHeader","containerUserHeader");
+
+        if(getLocalCache('PLATFORM') == 'pbs'){
+            $("#panelVipProduct").show();
+        }else{
+            $("#panelVipProduct").remove();
+        }
+
+    });
+
+
+    function btnLogoutAct() {
+        $.modal({
+            title: "提示",
+            text: "确认退出当前帐号吗？",
+            buttons: [
+                { text: "取消", className: "default", onClick: function(){
+
+                } },
+                { text: "退出", onClick: function(){
+                    $.logout();
+                } },
+            ]
+        });
+    }
+
+    function unbindWeixin(){
+        $.modal({
+            title: "提示",
+            text: "确定解除当前账号与微信的绑定？",
+            buttons: [
+                { text: "取消", className: "default", onClick: function(){
+
+                } },
+                { text: "解绑", onClick: function(){
+                    $.logout();
+                    $.unbindAccount();
+                } },
+            ]
+        });
+
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>99云商</title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/jquery-weui.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+
+<script type="text/html" id="tempStore">
+    <select id="sid" name="sid">
+        <option value="0" class="tips">请选择小区物业点</option>
+        <%for(var i=0; i < data.length; i++){%>
+        <option value="<%=data[i].id%>"><%=data[i].name%></option>
+        <%}%>
+    </select>
+</script>
+
+<div class="content">
+    <div class="mui-login">
+        <div class="item-logo"><img src="images/tmp_shop_logo.png" alt=""></div>
+        <div class="item-text-logo" style="display: none;">99云商</div>
+        <div class="item-form">
+            <div class="item-group-select">
+                <label class="item-label micon-address"></label>
+                <div id="containerStore"></div>
+            </div>
+            <div class="item-group">
+                <label class="item-label micon-login-user"></label>
+                <input type="text" maxlength="20" name="contactor" id="contactor" placeholder="请输入姓名" value="">
+            </div>
+            <div class="item-group">
+                <label class="item-label micon-phone"></label>
+                <input type="text" maxlength="11" name="phone" id="phone" placeholder="请输入手机号" value="">
+            </div>
+            <div class="item-group">
+                <label class="item-label micon-login-password"></label>
+                <input type="text" maxlength="4" name="sms" id="sms" placeholder="请输入短信验证码" value="">
+                <button type="button" class="btn btn-send-sms" id="btnSendSMS">发送短信验证码</button>
+            </div>
+            <div class="item-submit">
+                <button type="button" class="btn btn-block btn-primary" id="btnBindAct">会员注册</button>
+            </div>
+        </div>
+        <div class="item-des">&copy;北京亚信通科技有限公司</div>
+        <div id="debug-sms"></div>
+        <div id="debug-bind"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var seconds; //发送短信验证码的间隔秒数
+
+    $(function(){
+        
+        //获取调整地址参数中的OPENID
+        var openid = getUrlParam("openid");
+
+        var isTouchDevice = 'ontouchstart' in window || navigator.msMaxTouchPoints;
+        if (isTouchDevice) {
+            $(document).on("touchend","#btnSendSMS",function(evt){
+                clickSendSMS()
+            });
+
+            $(document).on("touchend","#btnBindAct",function(evt){
+                clickBindAct();
+            });
+        } else {
+            $(document).on("click","#btnSendSMS",function(evt){
+                clickSendSMS();
+            });
+
+            $(document).on("click","#btnBindAct",function(evt){
+                clickBindAct();
+            });
+        }
+
+        //规避iphone键盘未关闭就点击按钮时出现白屏的bug
+        $('#phone').focus(function(){
+            $('#btnSendSMS').attr('disabled', 'disabled').css('pointer-events', 'none');
+            $('#btnBindAct').attr('disabled', 'disabled').css('pointer-events', 'none');
+        }).blur(function(){
+            if($('#btnSendSMS').text().indexOf('重新发送') == -1){
+                $('#btnSendSMS').removeAttr('disabled').css('pointer-events', '');
+                $('#btnBindAct').removeAttr('disabled').css('pointer-events', '');
+            }
+        });
+        $('#sms').focus(function(){
+            $('#btnSendSMS').attr('disabled', 'disabled').css('pointer-events', 'none');
+            $('#btnBindAct').attr('disabled', 'disabled').css('pointer-events', 'none');
+        }).blur(function(){
+            $('#btnSendSMS').removeAttr('disabled').css('pointer-events', '');
+            $('#btnBindAct').removeAttr('disabled').css('pointer-events', '');
+        });
+
+        var logo = getLocalCache("shop-logo") + THUMB_SM;
+        if(logo){
+            $('.item-logo img').attr("src",logo);
+        }
+
+        $.getVipStore("tempStore","containerStore");
+
+
+    });
+
+    /**
+     * 点击发送短信按钮
+     */
+    function clickSendSMS(){
+        var phone = $("#phone").val();
+        if (checkPhone(phone)){
+        //if (phone.length > 3){
+            setTimeout(function(){
+                seconds = 60;
+                $.sendSMSusePhone(phone);
+                countDown();
+            },0);
+        } else {
+            $.alert("请填写正确的手机号账号");
+        }
+    }
+
+    /**
+     * 点击绑定账号按钮
+     */
+    function clickBindAct(){
+        var sid = $('#sid').val() ;
+        if (parseInt(sid) <= 0) {
+            $.alert("请选择小区物业点");
+            return;
+        }
+        if ($.trim($('#sms').val()) != ''){
+            setTimeout(function(){
+                var sid = $("#sid").val();
+                var contactor = $("#contactor").val();
+                var phone = $("#phone").val();
+                var sms = $("#sms").val();
+                var openid = getUrlParam("openid");
+                $.vipRegAndBind(contactor, phone, openid, sid, sms);
+            },0);
+        } else {
+            $.alert("请填写验证码");
+        }
+    }
+
+    /**
+     * 再次发送倒计时
+     */
+    function countDown(){
+        //console.log(seconds);
+        if (seconds){
+            var txt = --seconds + '秒后重新发送';
+            $('#btnSendSMS').text(txt).attr("disabled", "disabled").css('pointer-events', 'none');
+            var timeId = setTimeout("countDown()", 1000);
+            if(seconds == 0){
+                clearTimeout(timeId);
+                $('#btnSendSMS').removeAttr('disabled').css('pointer-events', '').text('发送短信验证码');
+                seconds = 6;
+            } else {
+                $('#btnSendSMS').attr('disabled', 'disabled').css('pointer-events', 'none');
+            }
+        }
+    }
+
+
+</script>
+
+</body>
+</html>

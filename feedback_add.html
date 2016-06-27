@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+
+<header class="bar bar-nav">
+    <a class="icon icon-left-nav pull-left" id="navBackBtn"></a>
+    <h1 class="title">意见反馈</h1>
+</header>
+
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+<!--TAB BAR END-->
+
+<div class="content">
+    <div class="mui-form content-padded">
+        <form>
+            <textarea rows="5" name="memo" id="memo"></textarea>
+            <button type="button" class="btn btn-primary btn-block" onclick="feedbackAct();">提交</button>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('title').text(getLocalCache('shopName'));
+
+        var mgid = getUrlParam("mgid");
+
+        //UI处理
+        $("#mainTab").hide();
+        $("#navBackBtn").click(function(){
+            history.go(-1);
+        });
+
+    });
+
+    function feedbackAct(){
+        var ccid = getLocalCache("ccid");
+        var redUrl = "uc.html";
+        var memo = $("#memo").val();
+
+        console.log(ccid);
+
+        $.saveFeedback(ccid, memo, redUrl);
+
+    }
+</script>
+
+</body>
+</html>

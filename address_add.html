@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="lib/jquery-weui.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/jquery.cxselect.min.js"></script>
+</head>
+<body>
+
+<header class="bar bar-nav">
+    <a class="icon icon-left-nav pull-left" id="navBackBtn"></a>
+    <h1 class="title">新建收货地址</h1>
+</header>
+
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+<!--TAB BAR END-->
+
+<div class="content">
+    <div class="mui-address-add" id="address" data-url="js/cityData.min.json">
+        <div class="input-row">
+            <label>联系人</label>
+            <input type="text" name="contacts" id="contacts" placeholder="">
+        </div>
+        <div class="input-row">
+            <label>联系电话</label>
+            <input type="email" name="phone" id="phone" maxlength="11" placeholder="">
+        </div>
+        <div class="input-row">
+            <label>省</label>
+            <!--input type="text" name="province" id="province" placeholder=""-->
+            <select class="province" name="province" id="province"></select>
+        </div>
+        <div class="input-row">
+            <label>市</label>
+            <!--<input type="text" name="city" id="city" placeholder="">-->
+            <select class="city" name="city" id="city"></select>
+        </div>
+        <div class="input-row">
+            <label>区/县</label>
+            <!--<input type="text" name="county" id="county" placeholder="">-->
+            <select class="county" name="county" id="county"></select>
+        </div>
+        <div class="input-row">
+            <label>详细地址</label>
+            <input type="text" name="street" id="street" placeholder="">
+        </div>
+        <div class="content-padded">
+            <button class="btn btn-block btn-primary" onclick="saveAddress();">保存</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('title').text(getLocalCache('shopName'));
+
+        //UI处理
+        $("#mainTab").hide();
+        $("#navBackBtn").click(function(){
+            history.go(-1);
+        });
+
+        $('#address').cxSelect({
+            //url: '/js/compents/city.json',
+            selects: ['province', 'city', 'county'],
+        });
+
+    });
+
+    function saveAddress(){
+        var contacts = $("#contacts").val();
+        var phone = $("#phone").val();
+        var province = $("#province").val();
+        var city = $("#city").val();
+        var county = $("#county").val();
+        var street = $("#street").val();
+
+        var redirect = getUrlParam("redirect");
+        //var url = getUrlParam("url");
+
+        if (contacts === null || contacts === 'undefined' || contacts ==="" ) {
+            $.alert("请填写联系人信息");
+            return false;
+        }
+
+        if(phone===null||phone==='undefined'||phone==='')
+        {
+            $.alert("请填写电话信息");
+            return false;
+        }else
+        {
+            if (checkPhone(phone)) {
+
+            }else{
+                $.alert("手机号格式不正确");
+                return false;
+            }
+        }
+
+        if(province===null||province==='undefined'||province==='')
+        {
+            $.alert("请选择省份信息");
+            return false;
+        }
+
+        if(street===null||street==='undefined'||street==='')
+        {
+            $.alert("请填写街道信息");
+            return false;
+        }
+
+        var redUrl="address.html";
+        if(redirect!=null&&redirect!='undefined')
+        {
+            redUrl = (redirect);
+        }
+
+
+
+        $.saveAddress(contacts,phone,province,city,county,street,redUrl);
+    }
+
+</script>
+
+</body>
+</html>

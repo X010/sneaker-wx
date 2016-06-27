@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+    <style>
+        * { margin:0; padding:0; font-size: 13px; word-break: break-all;}
+        .index-page .logo { position: absolute; top:45%; width: 30%; left: 50%; -webkit-transform: translate(-50%,-50%);  -ms-transform: translate(-50%,-50%);  transform: translate(-50%,-50%);}
+    </style>
+</head>
+<body>
+
+<script type="text/html" id="tempLogo">
+    <%if(data.logo == null || data.logo == ""){%>
+    <img class="logo" src="images/tmp_shop_logo.png">
+    <%}else{%>
+    <img class="logo" src="<%=data.logo%><%=THUMB_SM%>">
+    <%}%>
+</script>
+
+<div class="index-page" id="containerLogo"></div>
+
+<div id="debug-code"></div>
+<div id="debug-openid"></div>
+<div id="debug-user"></div>
+<div id="debug-openid2"></div>
+<script type="text/javascript">
+    $(function(){
+
+        //$('title').text(getLocalCache('shopName'));
+
+        var openid  = getLocalCache("openid");
+        var code = getUrlParam("code");
+        var state  = getUrlParam("state");
+
+        $.getCompanyInfo(state,"tempLogo","containerLogo");
+
+        if(code !==null && code !== "undefined"){
+            $.getWeixinOpenid2(code,state);
+
+        } else {
+            if (openid) {
+                $.wxOpenidLogin2(openid);
+            }
+        }
+
+    });
+
+</script>
+</body>
+</html>

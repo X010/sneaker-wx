@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/jquery-ui.min.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="lib/jquery-weui.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+
+<header class="bar bar-nav">
+    <h1 class="title" id="headerTitle">商品</h1>
+</header>
+
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+<!--TAB BAR END-->
+
+<script type="text/html" id="tempCateTopLevel">
+    <ul>
+        <li class="active" data-code="" data-name="全部商品" onclick="changeCate(this,'');">全部商品</li>
+        <%for(var i=0;i < data.length ;i++){%>
+        <li class="<%=data[i].active%>" data-code="<%=data[i].code%>" data-name="<%=data[i].name%>" onclick="changeCate(this,'<%=data[i].code%>');"><%=data[i].name%></li>
+        <%}%>
+    </ul>
+</script>
+
+<script type="text/html" id="tempColumnList">
+    <ul>
+        <%for(var i=0;i < data.length ;i++){%>
+        <li class="<%=data[i].active%>" data-id="<%=data[i].id%>" data-name="<%=data[i].name%>" onclick="changeColumn(this,'<%=data[i].id%>');"><%=data[i].name%></li>
+        <%}%>
+    </ul>
+</script>
+
+<script type="text/html" id="tempGoodsList">
+    <%for(var i=0;i < data.length ;i++){%>
+    <div class="item-col">
+        <a href="goods_item.html?mgid=<%=data[i].id%>" class="item-goods">
+            <div class="item-thumb">
+            <img id="dimg_<%=data[i].id%>" src="<%=data[i].gphoto_list[0]%><%=THUMB_SM%>" alt="" >
+            </div>
+            <div class="item-gname"><%=data[i].gname%></div>
+            <div class="item-flag-group">
+                <span style="display: none;" class="item-flag">精选</span>
+            </div>
+            <div class="item-price">
+                <%if(data[i].pkgsize==1 && data[i].price_style==1){%>
+                <strong><%=(data[i].price/data[i].spec).toFixed(2)%></strong> 元/<%=data[i].unit_base%>
+                <%}else{%>
+                <strong><%=data[i].price%></strong> 元/<%=data[i].unit%>
+                <%}%>
+            </div>
+        </a>
+        <div class="item-cart micon-cart-add" onclick="addToCart('gitem_<%=data[i].id%>','dimg_<%=data[i].id%>');" id="gitem_<%=data[i].id%>" data-id="<%=data[i].id%>" data-title="<%=data[i].gname%>" data-barcode="<%=data[i].barcode%>" data-price="<%=data[i].price%>" data-qty="1" data-img="<%=data[i].gphoto%>" data-scid="<%=data[i].company_id%>" data-restrict="<%=data[i].restrict%>" data-marketid="<%=data[i].marketid%>" ></div>
+        <%if(data[i].marketid){%>
+        <div class="goods-market" id="market_<%=data[i].id%>"></div>
+        <%}%>
+    </div>
+    <%}%>
+</script>
+
+<script type="text/html" id="tempCateSubLevel">
+    <ul>
+        <li data-code="" data-name="全部分类" class="item-current">全部分类</li>
+        <%for(var i=0;i < data.length ;i++){%>
+        <li data-code="<%=data[i].code%>" data-name="<%=data[i].name%>" onclick="changeSubCate(this,'<%=data[i].code%>');"><%=data[i].name%></li>
+        <%}%>
+    </ul>
+</script>
+
+<div class="content">
+    <div class="content-layout-main">
+        <div class="mui-goods-list">
+            <h2 class="items-title" id="cateSubBar"></h2>
+            <div class="items" id="containerGoodsList">
+
+            </div>
+            <div class="items-more">
+                <button class="btn btn-block">显示更多</button>
+            </div>
+            <div class="mui-empty">
+                <div class="item-icon">
+                    <span class="icon micon-empty"></span>
+                </div>
+                <div class="item-title">该分类下没有商品</div>
+            </div>
+            <!--二级菜单-->
+            <div class="items-cate-mask"></div>
+            <div class="items-cate-list">
+                <div class="items-cate-list-inner" id="containerCateSubLevel">
+
+                </div>
+            </div>
+            <!--二级菜单 END-->
+
+        </div>
+    </div>
+</div>
+
+<div class="content-layout-side">
+    <div class="goods-cate-group" id="containerCateTopLevel"></div>
+    <div class="goods-cate-group" id="containerColumnList"></div>
+</div>
+
+<script type="text/javascript">
+    $('title').text(getLocalCache('shopName'));
+
+    var scid = getLocalCache("scid");
+    var code = getUrlParam("code");
+    var page = getUrlParam("page");
+    var columnid = getUrlParam("column");
+    var limit= 20;
+
+    $(function(){
+
+        //UI处理
+        $("#mainTabCate").addClass("active");
+        console.log("columnid"+columnid);
+        page = 1;
+
+        //从URL获取code或column显示商品列表
+        var cateSubBtn = $('<span class="icon icon-caret items-cate-more" data-code="'+code+'" id="listName">全部分类</span>');
+        if(code){
+
+            $("#cateSubBar").empty().append(cateSubBtn);
+            $.showCateList("tempCateSubLevel", "containerCateSubLevel",code.substr(0,4));
+            cateSubBtn.click(function(){
+                showSubCate(code);
+            });
+
+            $.showGoodsList("tempGoodsList", "containerGoodsList", scid, code, page, limit);
+            $(".items-more").unbind().click(function(){
+                page = page + 1;
+                $.showGoodsList("tempGoodsList", "containerGoodsList", scid, code, page, limit);
+            });
+
+        } else if(columnid){
+            $.showGoodsListByColumn("tempGoodsList", "containerGoodsList", scid, columnid, 1, 100);
+
+        } else {
+            $("#listName").hide();
+            $(".goods-cate-group li:first").addClass("active");
+            $.showGoodsList("tempGoodsList", "containerGoodsList", scid, code, page, limit);
+            $(".items-more").click(function(){
+                page = page + 1;
+                $.showGoodsList("tempGoodsList", "containerGoodsList", scid, code, page, limit);
+            });
+        }
+
+        $.showCateList("tempCateTopLevel", "containerCateTopLevel");
+        $.showColumnList("tempColumnList", "containerColumnList");
+
+    });
+
+    //切换一级分类
+    function changeCate(obj, code){
+        var list_name = $(obj).data("name");
+        $("#listName").text(list_name);
+
+        $(".goods-cate-group li").removeClass("active");
+        $(obj).addClass("active");
+
+        //重置页数
+        page = 1;
+
+        //二级分类展开按钮
+        var cateSubBtn = $('<span class="icon icon-caret items-cate-more" data-code="'+code+'" id="listName">全部分类</span>');
+
+        if(code !== ''){
+            $("#cateSubBar").empty().append(cateSubBtn);
+            $.showCateList("tempCateSubLevel", "containerCateSubLevel",code);
+            cateSubBtn.click(function(){
+                showSubCate(code);
+            });
+        }else{
+            $("#listName").hide();
+        }
+
+        //每次切换隐藏二级分类
+        $(".items-cate-mask").hide();
+        $(".items-cate-list").hide();
+
+        $.showGoodsList("tempGoodsList", "containerGoodsList", scid, code, page, limit);
+
+
+        $(".items-more").unbind().click(function(){
+            page = page + 1;
+            console.log(page);
+            $.showGoodsList("tempGoodsList", "containerGoodsList", scid, code, page, limit);
+        });
+    }
+
+    //切换二级分类
+    function changeSubCate(obj, code){
+        var list_name = $(obj).data("name");
+        $("#listName").text(list_name);
+
+        $(obj).siblings().removeClass("item-current");
+        $(obj).addClass("item-current");
+
+        page = 1;
+
+        //每次切换隐藏二级分类
+        $(".items-cate-mask").hide();
+        $(".items-cate-list").hide();
+
+        $.showGoodsList("tempGoodsList", "containerGoodsList", scid, code, page, limit);
+
+        $(".items-more").unbind().click(function(){
+            page = page + 1;
+            $.showGoodsList("tempGoodsList", "containerGoodsList", scid, code, page, limit);
+        });
+    }
+
+
+    //显示二级分类
+    function showSubCate(code){
+        $(".items-cate-list").slideDown('fast');
+        //把事件绑定到第一个li
+        $(".items-cate-list li:first").data("code",code).unbind().click(function(){
+            changeSubCate(this,code);
+        });
+    }
+
+    //切换栏目
+    function changeColumn(obj, columnid){
+        page = 1;
+        $("#listName").hide();
+
+        $(".goods-cate-group li").removeClass("active");
+        $(obj).addClass("active");
+
+        //每次切换隐藏二级分类
+        $(".items-cate-mask").hide();
+        $(".items-cate-list").hide();
+
+        $.showGoodsListByColumn("tempGoodsList", "containerGoodsList", scid, columnid, page, 100);
+
+        $(".items-more").unbind().click(function(){
+            page = page + 1;
+            $.showGoodsListByColumn("tempGoodsList", "containerGoodsList", scid, columnid, page, 100);
+        });
+    }
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="lib/jquery-weui.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/app.js"></script>
+
+
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+
+<header class="bar bar-nav">
+    <a class="icon icon-left-nav pull-left" id="navBackBtn"></a>
+    <h1 class="title">支付结果</h1>
+</header>
+
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+
+<div class="container-checkout order-success">
+    <div class="container">
+        <div class="row">
+            <div class="weui_msg" style="padding-top: 60px;">
+                <div class="weui_icon_area" style="display:none;"><i class="weui_icon_waiting weui_icon_msg" id="icon_msg"></i></div>
+                <div class="weui_text_area" style="display:none;">
+                    <h2 class="weui_msg_title">支付结果获取中</h2>
+                </div>
+                <div class="weui_opr_area">
+                    <p class="weui_btn_area">
+                        <a href="goods.html" class="weui_btn weui_btn_primary goon">继续下单</a>
+                        <a href="order.html" class="weui_btn weui_btn_default orderlist">查看订单</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loadingToast" class="weui_loading_toast" >
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+        <div class="weui_loading">            
+            <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+        </div>
+        <p class="weui_toast_content">数据加载中</p>
+    </div>
+</div>
+<script language="JavaScript">
+    $(function(){
+        $('title').text(getLocalCache('shopName'));
+
+        $("#navTitle").html("支付成功");
+        $("#navCart").addClass("active");
+
+        var type  = getUrlParam("type");
+        if (type =='change') {
+            $('#icon_msg').removeClass('weui_icon_waiting').addClass('weui_icon_success');
+            $('.weui_msg_title').html('购买成功');
+            $('#loadingToast').hide();
+            $('.weui_icon_area').show();
+            $('.weui_text_area').show();
+            $('.goon').html('去逛逛');
+            $('.orderlist').attr('href', 'vip_order.html');
+        } else {
+            var soid   = getUrlParam("soid");
+            var scid   = getUrlParam("scid");
+            var ticket = getLocalCache("ticket");
+
+            $.paidSucc(scid, soid, ticket);
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

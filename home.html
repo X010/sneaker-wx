@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet-theme-ios.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/jquery-ui.min.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="lib/jquery-weui.js"></script>
+    <script src="lib/jquery.lazyload.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/page.touch.js"></script>
+    <script src="js/jquery.touchslider.js"></script>
+    <!-- <script src="js/page.slider.js"></script> -->
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+<!--
+<header class="bar bar-nav">
+    <input type="search" maxlength="20" placeholder="搜索商品" id="search">
+</header>-->
+
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+<!--TAB BAR END-->
+
+
+<script type="text/html" id="temp-focus-default">
+    <div class="mui-focus">
+        <div class="items">
+            <%for(var i=0; i < data.length; i++){%>
+                <div class="touchslider-viewport">
+                    <div class="myAnimation">
+                        <img class="img-responsive" src="<%=data[i].c%>@0o_0l_640w_90q" alt="">
+                    </div>
+                </div>
+            <%}%>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="temp-quick-default">
+    <div class="mui-quick-5">
+        <div class="items clearfix">
+            <%for(var i=0; i < data.length; i++){%>
+            <a href="<%=data[i].href%>" class="item-col">
+                <span class="item-thumb"><img src="<%=data[i].c%><%=THUMB_XS%>" alt=""></span>
+                <span class="item-title"><%=data[i].title%></span>
+            </a>
+            <%}%>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="temp-broadcast-default">
+    <div class="mui-broadcast">
+        <div class="mui-broadcast-inner">
+            <h2 class="items-title">快报</h2>
+            <div class="items" id="broadcast">
+                <ul>
+                    <%for(var i=0; i < data.length; i++){%>
+                    <li class="item-row"><%=data[i].c%></li>
+                    <%}%>
+                </ul>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="temp-showcase-default">
+    <div class="mui-showcase-default">
+        <div class="items clearfix">
+            <%for(var i=0; i < data.length; i++){%>
+            <a href="<%=data[i].href%>" class="item-col">
+                <%if(i==0){%>
+                <div class="item-main">
+                    <!--<h3 class="item-title"><%=data[i].title%></h3>-->
+                    <!--<div class="item-des"><%=data[i].sub_title%></div>-->
+                    <div class="item-thumb"><img src="<%=data[i].c%><%=THUMB_MD%>" alt=""></div>
+                </div>
+                <%}else{%>
+                <div class="item-sub">
+                    <h3 class="item-title"><%=data[i].title%></h3>
+                    <div class="item-des"><%=data[i].sub_title%></div>
+                    <div class="item-thumb"><img src="<%=data[i].c%><%=THUMB_MD%>" alt=""></div>
+                </div>
+                <%}%>
+            </a>
+            <%}%>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="tempColumnGoodsGrid">
+    <%for(var i=0; i < data.length; i++){%>
+    <div class="mui-goods-grid">
+        <h2 class="items-title"><%=data[i].name%></h2>
+        <div class="items clearfix">
+            <%for(var j=0; j < data[i].goods.length; j++){%>
+            <div class="item-col">
+                <div class="item-goods">
+                    <a class="item-thumb" href="goods_item.html?mgid=<%=data[i].goods[j].id%>">
+                        <span class="item-thumb-wrap"><img id="dimg_<%=data[i].goods[j].id%>" src="<%=data[i].goods[j].gphoto_list[0]%><%=THUMB_MD%>"  ></span>
+                        <!--<span class="item-flag">精选</span>-->
+                    </a>
+                    <div class="item-group">
+                        <span class="item-price">
+                            <%if(data[i].goods[j].price_style==1 && data[i].goods[j].pkgsize==1){%>
+                            <strong><%=(data[i].goods[j].price/data[i].goods[j].spec).toFixed(2)%></strong> 元/<%=data[i].goods[j].unit_base%>
+                            <%}else{%>
+                            <strong><%=data[i].goods[j].price%></strong> 元/<%=data[i].goods[j].unit%>
+                            <%}%>
+                        </span>
+                        <span class="item-cart micon-cart-add" onclick="addToCart('gitem_<%=data[i].goods[j].id%>','dimg_<%=data[i].goods[j].id%>');" id="gitem_<%=data[i].goods[j].id%>" data-id="<%=data[i].goods[j].id%>" data-title="<%=data[i].goods[j].gname%>" data-barcode="<%=data[i].goods[j].barcode%>" data-price="<%=data[i].goods[j].price%>" data-qty="1" data-img="<%=data[i].goods[j].gphoto%>" data-scid="<%=data[i].goods[j].company_id%>" data-restrict="<%=data[i].goods[j].restrict%>"></span>
+                    </div>
+                    <div class="item-gname"><%=data[i].goods[j].gname%></div>
+                </div>
+            </div>
+            <%}%>
+        </div>
+    </div>
+    <%}%>
+</script>
+
+<script type="text/html" id="tempGoodsGrid">
+    <div class="mui-goods-grid">
+        <h2 class="items-title">热购商品</h2>
+        <div class="items clearfix">
+            <%for(var i=0; i < data.length; i++){%>
+            <div class="item-col">
+                <div class="item-goods">
+                    <a class="item-thumb" href="goods_item.html?mgid=<%=data[i].id%>">
+                        <span class="item-thumb-wrap"><img id="dimg_<%=data[i].id%>" data-original="<%=data[i].gphoto_list[0]%><%=THUMB_MD%>" class="lazy" ></span>
+                        <!--<span class="item-flag">精选</span> -->
+                    </a>
+                    <div class="item-group">
+                        <span class="item-price">
+                            <%if(data[i].price_style==1 && data[i].pkgsize==1){%>
+                            <strong><%=(data[i].price/data[i].spec).toFixed(2)%></strong> 元/<%=data[i].unit_base%>
+                            <%}else{%>
+                            <strong><%=data[i].price%></strong> 元/<%=data[i].unit%>
+                            <%}%>
+                        </span>
+                        <span class="item-cart micon-cart-add" onclick="addToCart('gitem_<%=data[i].id%>','dimg_<%=data[i].id%>');" id="gitem_<%=data[i].id%>" data-id="<%=data[i].id%>" data-title="<%=data[i].gname%>" data-barcode="<%=data[i].barcode%>" data-price="<%=data[i].price%>" data-qty="1" data-img="<%=data[i].gphoto%>" data-scid="<%=data[i].company_id%>" data-restrict="<%=data[i].restrict%>"></span>
+                    </div>
+                    <div class="item-gname"><%=data[i].gname%></div>
+                </div>
+            </div>
+            <%}%>
+        </div>
+    </div>
+</script>
+
+<div class="content">
+    <div class="mui-search-bar">
+        <input type="search" maxlength="20" placeholder="请输入商品名称" id="search">
+    </div>
+
+
+    <div class="mui-focus">
+        <div class="items" >
+                <div class="touchslider">
+                    <div class="touchslider-viewport" style="overflow:hidden"><div id="containerFocus"></div></div>
+                </div>
+        </div>
+    </div>
+
+
+    <div id="containerHome"></div>
+    <div id="containerColumnGoods"></div>
+    <div id="containerHotGoods"></div>
+
+    <div class="content-padded">
+        <a class="btn btn-block" href="goods.html" id="btn-more">查看更多商品</a>
+        <a class="btn btn-block" href="#" id="btn-cs" style="color:#D32F2F;display:none;"></a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('title').text(getLocalCache('shopName'));
+        if(getLocalCache('SHOPMODE')=='B2B') {
+            $('#btn-more').hide();
+            $('#btn-cs').html('客服热线：' + getLocalCache("cs_phone")).attr('href', 'tel://' + getLocalCache("cs_phone")).show();
+        }
+        var scid = getLocalCache("scid");
+
+        //UI处理
+        $("#mainTabHome").addClass("active");
+
+        $.showHomeBySupplier("tempFocus","containerHome",scid);
+
+        $.showHomeColumnGoods("tempColumnGoodsGrid","containerColumnGoods",scid);
+        //$.showHotGoods("tempGoodsGrid","containerHotGoods",scid, 6);
+        // $.showHomeGoods("tempGoodsGrid","containerHotGoods",scid,"",1,20);
+
+        $('#search').on('blur',function(){
+            var keyword = $(this).val();
+            if (keyword.length > 0) {
+                window.location.href="search.html?ccid="+getLocalCache('ccid')+'&scid='+getLocalCache('scid')+'&keyword='+keyword;
+            }
+        });
+
+        $('#search').on('keypress',function(e){
+            if (e.keyCode == 13) {
+                var keyword = $(this).val();
+                window.location.href="search.html?ccid="+getLocalCache('ccid')+'&scid='+getLocalCache('scid')+'&keyword='+keyword;
+            }
+        });
+
+    });
+
+    //快报滚动
+    function autoScroll(obj){
+        $(obj).find("ul").animate({
+            marginTop : "-30px",
+        },500,function(){
+            $(this).css({
+                marginTop : "0px",
+            }).find("li:first").appendTo(this);
+        })
+    }
+
+    function showCustomServicePhone(){
+        window.location.href = 'tel://' + getLocalCache("cs_phone");
+        //$.alert('客服热线：' + getLocalCache("cs_phone"));
+    }
+</script>
+
+</body>
+</html>

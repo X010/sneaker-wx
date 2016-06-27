@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="lib/jquery-weui.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+
+<header class="bar bar-nav">
+    <a class="icon icon-left-nav pull-left" id="navBackBtn"></a>
+    <h1 class="title">订单</h1>
+</header>
+
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+<!--TAB BAR END-->
+
+<!--订单详情模板-->
+<script type="text/html" id="tempOrderDetail">
+    <div class="mui-panel">
+        <h2 class="mui-panel-title">基本信息</h2>
+        <div class="mui-spec">
+            <ul>
+                <li><label>商城订单号：</label><%=data.order_id%></li>
+                <li><label>采购单号：</label><%=data.erp_order_id%></li>
+                <li><label>下单时间：</label><%=data.create_time%></li>
+                <li><label>供货商：</label><%=data.supplier_company_name%></li>
+                <li><label>发货紧急度：</label>
+                    <%if(data.delivery==0) { %>
+                    不限制
+                    <%}%>
+                    <%if(data.delivery==1) { %>
+                    立即送
+                    <%}%>
+                    <%if(data.delivery==2) { %>
+                    当日送
+                    <%}%>
+                    <%if(data.delivery==3) { %>
+                    隔日送
+                    <%}%>
+                    <%if(data.delivery==4) { %>
+                    本周送
+                    <%}%>
+                </li>
+                <li><label>支付方式：</label>
+                    <%if(data.pt==1) { %>
+                    货到付款
+                    <%}%>
+                    <%if(data.pt==2) { %>
+                    立即支付
+                    <%}%>
+                    <%if(data.pt==3) { %>
+                    银行汇款
+                    <%}%>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <%if(data.pt==3 || data.pt==4) { %>
+    <div class="mui-panel">
+        <h2 class="mui-panel-title">银行汇款信息</h2>
+        <div class="mui-spec" id="bankForPay">
+
+        </div>
+    </div>
+    <%}%>
+
+    <div class="mui-panel">
+        <h2 class="mui-panel-title">订单状态</h2>
+        <div class="mui-spec">
+            <ul>
+                <li><label>支付状态：</label>
+                    <%if(data.ispay==9) { %>
+                    已支付
+                    <%}%>
+                    <%if(data.ispay==10) { %>
+                    未支付
+                    <%}%>
+                </li>
+                <li><label>订单状态：</label>
+                    <%if(data.status==0) { %>
+                    订单处理中
+                    <%}%>
+                    <%if(data.status==3) { %>
+                    订单已确认
+                    <%}%>
+                    <%if(data.status==4) { %>
+                    订单已确认
+                    <%}%>
+                    <%if(data.status==5) { %>
+                    已发货
+                    <%}%>
+                    <%if(data.status==1) { %>
+                    正在处理中
+                    <%}%>
+                    <%if(data.status==8) { %>
+                    已取消
+                    <%}%>
+                    <%if(data.status==9) { %>
+                        已结算
+                    <%}%>
+                    <%if(data.status==13) { %>
+                    缺货待配
+                    <%}%>
+                    <%if(data.status==99) { %>
+                    订单处理错误
+                    <%}%>
+                </li>
+            </ul>
+        </div>
+        <div class="mui-panel-content">
+            <!--<button class="btn"><span class="icon icon-compose"></span> 再次下单</button>-->
+            <!--<button class="btn"><span class="icon icon-star"></span> 立即支付</button>-->
+            <%if(data.status==0||data.status==1) { %>
+            <button class="btn btn-negative" onclick="cancelOrder('<%=data.id%>', this);">取消订单</button>
+            <%}%>
+        </div>
+    </div>
+
+    <div class="mui-panel">
+        <div class="mui-order-goods-list">
+            <div class="items">
+                <%for(var i=0; i < data.items.length; i++ ){%>
+                <div class="item-col">
+                    <div class="item-goods">
+                        <div class="item-thumb"><img src="<%=data.items[i].gphoto%><%=THUMB_XS%>" alt="<%=data.items[i].gname%>" ></div>
+                        <div class="item-gname"><%=data.items[i].gname%></div>
+                        <div class="item-total">数量：×<%if(data.items[i].giveaway==1 || data.items[i].bindId>0){%><%=data.items[i].total%><%}else{%><%=data.items[i].bindTotal%><%}%></div>
+                        <div class="item-price-amount"><strong><%=data.items[i].total_amount%></strong> 元</div>
+                    </div>
+                </div>
+                <%}%>
+            </div>
+        </div>
+    </div>
+
+    <div class="mui-panel">
+        <h2 class="mui-panel-title">收货信息</h2>
+        <div class="mui-spec">
+            <ul>
+                <li><label>联系人：</label><%=data.contacts%> (<%=data.phone%>)</li>
+                <li><label>收货地址：</label><%=data.receipt%></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mui-panel">
+        <h2 class="mui-panel-title">订单金额</h2>
+        <div class="mui-panel-content">
+            <div class="item-price"><strong><%=data.total_amount%></strong>元</div>
+        </div>
+    </div>
+</script>
+<!--订单详情模板 END-->
+
+<!--订单跟踪模板-->
+<script type="text/html" id="tempOrderTrack">
+    <div class="items">
+        <%for(var i=0; i < data.length; i++){%>
+        <div class="item-node">
+            <h3><%=data[i].oper_time%></h3>
+            <p>
+                <%if(data[i].status==1) { %>
+                <%if(data[i].action!=null) { %>
+                <%=data[i].action%>
+                <%}%>
+                <%}%>
+
+                <%if(data[i].status==3) { %>
+                审核订单
+                <%if(data[i].action!=null) { %>
+                ,<%=data[i].action%>
+                <%}%>
+                <%}%>
+
+                <%if(data[i].status==4) { %>
+                准备发货
+                <%if(data[i].action!=null) { %>
+                ,<%=data[i].action%>
+                <%}%>
+                <%}%>
+
+                <%if(data[i].status==5) { %>
+                已发货
+                <%if(data[i].action!=null) { %>
+                ,<%:=data[i].action%>
+                <%}%>
+                <%}%>
+
+                <%if(data[i].status==8) { %>
+                取消订单
+                <%if(data[i].action!=null) { %>
+                <%=data[i].action%>
+                <%}%>
+                <%}%>
+
+                <%if(data[i].status==9) { %>
+                订单结算
+                <%if(data[i].action!=null) { %>
+                <%=data[i].action%>
+                <%}%>
+                <%}%>
+
+                <%if(data[i].status==10) { %>
+                订单已取消结算
+                <%if(data[i].action!=null) { %>
+                <%=data[i].action%>
+                <%}%>
+                <%}%>
+
+                <%if(data[i].status==11) { %>
+                已派车
+                <%if(data[i].action!=null) { %>
+                <%=data[i].action%>
+                <%}%>
+                <%}%>
+
+                <%if(data[i].status==12) { %>
+                已取消派车
+                <%if(data[i].action!=null) { %>
+                <%=data[i].action%>
+                <%}%>
+                <%}%>
+
+                <%if(data[i].status==13) { %>
+                缺货待配
+                <%if(data[i].action!=null) { %>
+                <%=data[i].action%>
+                <%}%>
+                <%}%>
+            </p>
+            <span class="item-icon micon-node-check"></span>
+        </div>
+        <%}%>
+    </div>
+</script>
+<!--订单跟踪模板 END-->
+
+<script type="text/html" id="tempBankForPay">
+    <%if(data){%>
+    <%for(var i=0;i < data.length ;i++){%>
+    <ul>
+        <li><label>账户名称：</label><%=data[i].account_name%></li>
+        <li><label>银行账号：</label><%=data[i].card_no%></li>
+        <li><label>开户银行：</label><%=data[i].bank_name%></li>
+        <li>&nbsp;</li>
+    </ul>
+    <%}%>
+    <%}%>
+</script>
+
+<div class="content">
+    <div class="mui-order-cate">
+        <div class="segmented-control">
+            <a class="control-item active" href="javascript:void(0);" data-id="1" onclick="toggleTab(this);">订单详情</a>
+            <a class="control-item" href="javascript:void(0);" data-id="2" onclick="toggleTab(this);">订单跟踪</a>
+        </div>
+    </div>
+    <div class="mui-order-item" id="containerOrderDetail"></div>
+    <div class="mui-order-track" id="containerOrderTrack" style="display: none;"></div>
+
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('title').text(getLocalCache('shopName'));
+
+        var id = getUrlParam("id");
+        var orderid = getUrlParam("orderid");
+        var scid = getLocalCache("scid");
+
+        //UI处理
+        $("#mainTab").hide();
+        $("#navBackBtn").click(function(){
+            history.go(-1);
+        });
+
+        $.showOrderDetail("tempOrderDetail","containerOrderDetail",id);
+        $.showOrderTrack("tempOrderTrack","containerOrderTrack",orderid, id);
+
+    });
+
+    //切换TAB
+    function toggleTab(obj){
+        $(obj).siblings().removeClass("active");
+        $(obj).addClass("active");
+        var thisId = $(obj).data("id");
+
+        if(thisId == 1){
+            $("#containerOrderDetail").show();
+            $("#containerOrderTrack").hide();
+        } else if(thisId == 2) {
+            $("#containerOrderDetail").hide();
+            $("#containerOrderTrack").show();
+        }
+    }
+
+    /**
+     * 取消订单
+     * @param id
+     * @param btn
+     * @returns {boolean}
+     */
+    function cancelOrder(id, btn){
+        $.modal({
+            title: "提示",
+            text: "确认取消该订单吗？",
+            buttons: [
+                { text: "放弃操作", className: "default", onClick: function(){
+
+                } },
+                { text: "取消订单", onClick: function(){
+                    $.cancelOrder(id, btn);
+                } },
+            ]
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="lib/jquery-weui.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+
+<header class="bar bar-nav">
+    <h1 class="title">购物车</h1>
+    <a class="icon icon-trash pull-right" id="navClearBtn"></a>
+</header>
+
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+<!--TAB BAR END-->
+
+<div class="content">
+
+    <div class="mui-empty">
+        <div class="item-icon">
+            <span class="icon micon-cart"></span>
+        </div>
+        <div class="item-title">您的购物车还是空的呢~</div>
+        <div class="item-btn"><a href="home.html" class="btn">选购商品</a></div>
+    </div>
+
+    <div class="mui-cart-goods-list" style="display: none;">
+        <div class="items" id="cart-checkorder-cart">
+
+        </div>
+    </div>
+
+</div>
+
+<div class="mui-cart-bar-footer" style="display: none;">
+    <div class="pull-left item-price">应付：<strong id="confirm-total"></strong> 元</div>
+    <div class="pull-right item-btn">
+        <button onclick="checkOrderAct();" class="mui-btn-cart">选好了</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('title').text(getLocalCache('shopName'));
+
+        var scid = getLocalCache("scid");
+
+        //UI处理
+        $("#mainTabCart").addClass("active");
+
+        checkCart();
+
+        //清空购物车
+        $("#navClearBtn").click(function(){
+            $.modal({
+                title: "提示",
+                text: "确认清空购物车吗？",
+                buttons: [
+                    { text: "取消", className: "default", onClick: function(){
+
+                    } },
+                    { text: "清空", onClick: function(){
+                        cart.emptyCart();
+                        checkCart();
+                        refreshCart(0);
+                    } },
+                ]
+            });
+            /*
+            if(confirm("确认清空购物车吗?")){
+                cart.emptyCart();
+                checkCart();
+                refreshCart(0);
+            } else {
+                return false;
+            }*/
+        });
+
+    });
+
+    // 更新购物车页面
+    function checkCart() {
+        var gtotal = cart.getCartTotal();
+        var gmoney = cart.getTotalMoney();
+
+        if(gtotal == 0){
+            $(".mui-empty").show();
+            $(".mui-cart-goods-list").hide();
+            $(".mui-cart-bar-footer").hide();
+        }else{
+            $(".mui-empty").hide();
+            $(".mui-cart-goods-list").show();
+            $(".mui-cart-bar-footer").show();
+        }
+
+        var cartobj = cart.displayCart();
+        var items = cartobj.items;
+        var ct = $("#cart-checkorder-cart");
+        ct.empty();
+
+        for (var i = 0; i < items.length; ++i) {
+            var item = items[i];
+            var id = item.id;
+            var product = item.product;
+            var price = item.price;
+            var qty = item.qty;
+            var img = item.img;
+            var total = cart._decimal(cart._accMul(price, qty), 2);
+            var marketid = item.marketid;
+
+            var html_wrap = $('<div class="item-col"></div>');
+            var html = $('<div class="item-goods"></div>');
+            $('<input type="hidden" name="gid[]" value="' + id + '">').appendTo(html);
+            $('<div class="item-thumb"><a href="goods_item.html?mgid='+id+'"><img class="" width="90" height="90" src="' + img + THUMB_SM + '"></a></div><div class="item-gname">' + product + '</div>').appendTo(html);
+            $('<div class="item-price"><strong>' + price + '</strong> 元</div>').appendTo(html);
+
+            var sp = $('<div data-id="' + id + '" data-price="' + price + '" data-qty="' + qty + '" data-title="' + product + '" class=\"item-remove icon icon-close\" ></div>');
+
+            var num = $('<div class="item-num-edit clearfix"></div>');
+            var dd = $('<span class="btn-minus" data-id="' + id + '">-</span>');
+            dd.appendTo(num);
+            var dv = $('<span class="btn-num"><input type="tel" id="qtyinput_'+id+'" maxlength="4" data-qty="' + qty + '" data-id="' + id + '" name="qty[]" value="' + qty + '"></span>');
+            dv.appendTo(num);
+            var da = $('<span class="btn-plus" data-id="' + id + '">+</span>');
+            da.appendTo(num);
+
+            num.appendTo(html);
+
+
+
+            dd.on("click", function () {
+                var id = $(this).attr('data-id');
+                var btn = $('#qtyinput_' + id);
+                if(parseInt(btn.val())<=1) {
+                    btn.val('1');
+                    return;
+                }else {
+                    cart.updateQty($(this), -1);
+                    refreshCart(-1, 100);
+                    checkCart();
+                }
+            });
+            dv.find("input").eq(0).on('blur',function(){
+                if ($(this).val() > 2000) {
+                    $.alert('您选择太多商品啦，请直接联系供应商。');
+                    $(this).val($(this).attr('data-qty'));
+                    return;
+                }
+                
+                cart.updateQty($(this), $(this).val(), true);
+                refreshCart($(this).val(), 100);
+                checkCart();
+            });
+            // dv.on('blur', function () {
+            //     if ($(this).val() > 2000) {
+            //         $.alert('您选择太多商品啦，请直接联系供应商。');
+            //         $(this).val($(this).attr('data-qty'));
+            //         return;
+            //     }
+                
+            //     cart.updateQty($(this), $(this).val(), true);
+            //     refreshCart($(this).val(), 100);
+            //     checkCart();
+            // });
+            dv.keypress(function (e) {
+                if (e.keyCode == 13) {
+                    if ($(this).val() > 2000) {
+                        $.alert('您选择太多商品啦，请直接联系供应商。');
+                        $(this).val($(this).attr('data-qty'));
+                        return;
+                    }
+                    e.preventDefault();
+                }
+            });
+            da.on("click", function () {
+                cart.updateQty($(this), 1);
+                refreshCart(1, 100);
+                checkCart();
+            });
+            sp.on("click", function () {
+                cart.removeGoods($(this));
+                refreshCart('-' + dv.val(), 1);
+                checkCart();
+            });
+            sp.appendTo(html);
+
+            html_wrap.append(html);
+            $('<div class="goods-market" id="market_'+id+'"><ul></ul></div>').appendTo(html_wrap);
+            html_wrap.appendTo(ct);
+
+            //$("#totalGoods").html(gtotal);
+            $("#confirm-total").html(gmoney);
+
+            if (marketid != null || marketid != "undefined" || marketid.length > 0) {
+                $.showItemMarketList(id, marketid);
+            }
+
+        }
+        //加载商品的赠品列表
+        //console.log(items);
+        //$([id^='market_']).each(function(){
+
+            //$.showItemMarketList(408, 58);
+            //var containerId=$(this).attr("id");
+            //var splitId=containerId.split("_");
+            //var mgid=splitId[1];
+            //var marketId = items[i].marketid;
+            //if (marketId != null && marketId != "undefined" && marketId.length > 0) {
+            //    $.showItemMarketList(mgid, marketId);
+            //}
+        //});
+    }
+
+    //进入填写订单页
+    function checkOrderAct(){
+        window.location.href = "cart_check.html";
+    }
+</script>
+<div class="mask" id="overlay"></div>
+<div class="mask-msg" id="overlayMsg"></div>
+</body>
+</html>

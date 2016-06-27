@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet-theme-ios.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/jquery-ui.min.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="js/apiroute.js?t=sdfaa"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+
+<header class="bar bar-nav">
+    <a class="icon icon-left-nav pull-left" id="navBackBtn"></a>
+    <h1 class="title">搜索</h1>
+    <button type="button" class="btn pull-right" id="searchBtn">
+        搜索
+    </button>
+</header>
+
+<div class="bar bar-standard bar-header-secondary" id="searchBar">
+    <input type="search" id="search" name="search" class="form-control" placeholder="请输入商品名称" aria-describedby="search">
+</div>
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+<!--TAB BAR END-->
+
+<script type="text/html" id="tempCateTopLevel">
+    <ul>
+        <li class="active" data-code="" data-name="全部商品" onclick="changeCate(this,'');">全部商品</li>
+        <%for(var i=0;i < data.length ;i++){%>
+        <li data-code="<%=data[i].code%>" data-name="<%=data[i].name%>" onclick="changeCate(this,'<%=data[i].code%>');"><%=data[i].name%></li>
+        <%}%>
+    </ul>
+</script>
+
+<script type="text/html" id="tempColumnList">
+    <ul>
+        <%for(var i=0;i < data.length ;i++){%>
+        <li data-id="<%=data[i].id%>" data-name="<%=data[i].name%>" onclick="changeColumn(this,'<%=data[i].id%>');"><%=data[i].name%></li>
+        <%}%>
+    </ul>
+</script>
+
+<script type="text/html" id="tempGoodsList">
+    <h2 class="items-title">找到与“<strong id="keywordName"><%=getKeyword();%></strong>”相关的结果 <%=data.length%> 条</h2>
+    <div class="items">
+        <%for(var i=0;i < data.length ;i++){%>
+        <div class="item-col">
+            <a href="goods_item.html?mgid=<%=data[i].id%>" class="item-goods">
+                <div class="item-thumb">
+                    <img id="dimg_<%=data[i].id%>" src="<%=data[i].gphoto%><%=THUMB_SM%>" alt="" >
+                </div>
+                <div class="item-gname"><%=data[i].gname%></div>
+                <div class="item-flag-group">
+                    <span style="display: none;" class="item-flag">精选</span>
+                </div>
+                <div class="item-price">
+                    <%if(data[i].price_style==1 && data[i].pkgsize==1){%>
+                    <strong><%=(data[i].price/data[i].spec).toFixed(2)%></strong> 元/<%=data[i].unit_base%>
+                    <%}else{%>
+                    <strong><%=data[i].price%></strong> 元/<%=data[i].unit%>
+                    <%}%>
+                </div>
+            </a>
+            <div class="item-cart micon-cart-add" onclick="addToCart('gitem_<%=data[i].id%>','dimg_<%=data[i].id%>');" id="gitem_<%=data[i].id%>" data-id="<%=data[i].id%>" data-title="<%=data[i].gname%>" data-barcode="<%=data[i].barcode%>" data-price="<%=data[i].price%>" data-qty="1" data-img="<%=data[i].gphoto%>" data-scid="<%=data[i].company_id%>" data-restrict="<%=data[i].restrict%>" data-marketid="<%=data.marketid%>" onclick="addToCart(this)"></div>
+            <%if(data[i].marketid){%>
+            <div class="goods-market" id="market_<%=data[i].id%>"></div>
+            <%}%>
+        </div>
+        <%}%>
+    </div>
+    <div class="mui-empty">
+        <div class="item-icon">
+            <span class="icon micon-empty"></span>
+        </div>
+        <div class="item-title">没有搜索结果</div>
+    </div>
+
+</script>
+
+<div class="content">
+    <div class="mui-goods-list" id="containerGoodsList">
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    var scid = getLocalCache("scid");
+    var code = getUrlParam("code");
+    var page = getUrlParam("page");
+    var limit= 20;
+
+    
+    //$("#navTitle").html("搜索");
+
+    $(function(){
+        $('title').text(getLocalCache('shopName'));
+
+        var keyword = getUrlParam("keyword");
+        $('#search').val(keyword);
+        var backrel = getUrlParam("rel");
+
+        //UI处理
+        $("#mainTabCate").addClass("active");
+        $("#navBackBtn").click(function(){
+            window.location.href= "home.html";
+        });
+
+        $('#search').on('blur',function(){
+            var keyword = $(this).val();
+            if (keyword.length > 0) {
+                window.location.href="search.html?ccid="+getLocalCache('ccid')+'&scid='+getLocalCache('scid')+'&keyword='+keyword;
+            }
+        });
+        $('#search').on('keypress',function(e){
+            if (e.keyCode == 13) {
+                var keyword = $(this).val();
+                window.location.href="search.html?ccid="+getLocalCache('ccid')+'&scid='+getLocalCache('scid')+'&keyword='+keyword;
+            }
+            //e.preventDefault();
+        });
+
+
+        $('#searchBtn').on('click',function(){
+                var keyword = $("#search").val();
+                window.location.href="search.html?ccid="+getLocalCache('ccid')+'&scid='+getLocalCache('scid')+'&keyword='+keyword;
+        });
+
+        if(keyword){
+            $.showSearchGList(keyword, 'tempGoodsList', 'containerGoodsList');
+        }
+    });
+
+    function getKeyword(){
+        var keyword = getUrlParam("keyword");
+        return keyword;
+    }
+
+</script>
+
+</body>
+</html>

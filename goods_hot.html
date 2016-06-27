@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet-theme-ios.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/jquery-ui.min.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+
+<header class="bar bar-nav">
+    <a class="icon icon-left-nav pull-left" id="navBackBtn"></a>
+    <h1 class="title">热购商品</h1>
+</header>
+
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+<!--TAB BAR END-->
+
+<script type="text/html" id="tempGoodsGrid">
+    <div class="mui-goods-grid">
+        <div class="items clearfix">
+            <%for(var i=0; i < data.length; i++){%>
+            <div class="item-col">
+                <div class="item-goods">
+                    <a class="item-thumb" href="goods_item.html?mgid=<%=data[i].id%>">
+                        <span class="item-thumb-wrap"><img id="dimg_<%=data[i].id%>" src="<%=data[i].gphoto%><%=THUMB_MD%>" alt="" ></span>
+                        <!--<span class="item-flag">精选</span>-->
+                    </a>
+                    <div class="item-group">
+                        <span class="item-price">
+                            <%if(data[i].pkgsize==1 && data[i].price_style==1){%>
+                            <strong><%=(data[i].price/data[i].spec).toFixed(2)%></strong> 元/<%=data[i].unit_base%>
+                            <%}else{%>
+                            <strong><%=data[i].price%></strong> 元/<%=data[i].unit%>
+                            <%}%>
+                        </span>
+                        <span class="item-cart micon-cart-add" onclick="addToCart('gitem_<%=data[i].id%>','dimg_<%=data[i].id%>');" id="gitem_<%=data[i].id%>" data-id="<%=data[i].id%>" data-title="<%=data[i].gname%>" data-barcode="<%=data[i].barcode%>" data-price="<%=data[i].price%>" data-qty="1" data-img="<%=data[i].gphoto%>" data-scid="<%=data[i].company_id%>" data-restrict="<%=data[i].restrict%>"></span>
+                    </div>
+                    <div class="item-gname"><%=data[i].gname%></div>
+                </div>
+            </div>
+            <%}%>
+        </div>
+    </div>
+</script>
+
+<div class="content">
+    <div id="containerHotGoods"></div>
+</div>
+
+<script type="text/javascript">
+
+    $("#navBackBtn").click(function(){
+        history.go(-1);
+    });
+
+    var scid = getLocalCache("scid");
+    var limit = 10;
+
+    $(function(){
+        $('title').text(getLocalCache('shopName'));
+
+        $.showHotGoods("tempGoodsGrid","containerHotGoods",scid,limit);
+    });
+
+
+</script>
+
+</body>
+</html>

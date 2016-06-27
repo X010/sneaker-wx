@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>99云商</title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/BigInt.js"></script>
+    <script src="js/RSA_Stripped.js"></script>
+    <script src="js/Barrett.js"></script>
+</head>
+<body>
+
+<div class="content">
+    <div class="mui-login">
+        <div class="item-logo"><img src="images/tmp_shop_logo.png" alt=""></div>
+        <div class="item-text-logo" style="display: none;">99云商</div>
+        <div class="item-form">
+            <div class="item-group">
+                <label class="item-label micon-login-user"></label>
+                <input type="text" maxlength="11" name="username" id="username" placeholder="手机号" value="">
+            </div>
+            <div class="item-group">
+                <label class="item-label micon-login-password"></label>
+                <input type="password" maxlength="16" name="password" id="password" placeholder="登录密码" value="">
+            </div>
+            <div class="item-submit">
+                <button type="button" class="btn btn-block btn-primary" id="btnLoginAct" >登录</button>
+            </div>
+        </div>
+        <div class="item-des">@亚信通</div>
+
+    </div>
+</div>
+
+<div id="loadingToast" class="weui_loading_toast" style="display: none;">
+    <div class="weui_mask_transparent"></div>
+    <div class="weui_toast">
+        <div class="weui_loading">
+            <!-- :) -->
+            <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+            <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+        </div>
+        <p class="weui_toast_content">数据加载中...</p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var rsa_key;
+
+    $(function(){
+        $("#btnLoginAct").click(function(){
+            $.base_login('errorPlace');
+        });
+
+    });
+
+    function initRSA() {
+        if (!rsa_key){
+            setMaxDigits(262);
+            rsa_key = new RSAKeyPair(
+                    "10001",
+                    "10001",
+                    "C19FB154F7258C66E94E41686A54F5D34300C2C6A5F5FEF11B257424D82E2EF4980804A73BF38E701F757B448E5B94585CE8C1D9F3687D33D81AD670B07D9AA17D444571C6CF2B2B29B0628D3DBD359B118470E64B1C780755B2ECED2CE585764AB77C027AEDB2D968DF03D62F8FED633A270F0B3A551F81F98961B712E8EB3E55B2F209955D30AC151635A1A0A0D408F0A9F68568715A69146D028C710760FF3AB4474A94329B9E9DB9F52100065011D35319F595D92954CF302520D172249B1BF14F2DDC9D32646B427CA3918B5D9CE8349ED0C7A848D5E2F2D97878F573FB4C20CE5D4F4C0C124153BB9B63F76A5EEED63E4FB10F9FE8891144861A7C19E7",
+                    2048
+            );
+        }
+    }
+
+    function encryptWithRSA(txt) {
+        if (!rsa_key){
+            initRSA();
+        }
+        var ciphertext = encryptedString(rsa_key, txt, RSAAPP.PKCS1Padding, RSAAPP.RawEncoding);
+        return window.btoa(ciphertext); //base-64
+    }
+</script>
+</body>
+</html>

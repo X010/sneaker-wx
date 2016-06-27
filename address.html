@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="lib/jquery-weui.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+
+<header class="bar bar-nav">
+    <a class="icon icon-left-nav pull-left" id="navBackBtn"></a>
+    <h1 class="title">我的收货地址</h1>
+    <a class="icon icon-plus pull-right" href="address_add.html" id="navAddBtn"></a>
+</header>
+
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+<!--TAB BAR END-->
+
+<script type="text/html" id="tempAddressList">
+    <ul class="table-view">
+        <%for(var i =0; i< data.length; i++){%>
+        <li class="table-view-cell">
+            <div class="item-contact"><strong><%=data[i].contacts%></strong> <strong>(<%=data[i].phone%>)</strong></div>
+            <div class="item-address"><%=data[i].province%> <%=data[i].city%> <%=data[i].county%> <%=data[i].street%></div>
+            <%if(data[i].mode == "select"){%>
+            <button class="btn btn-positive" onclick="addressSelectAct(<%=data[i].id%>);">使用</button>
+            <%}else{%>
+            <div class="item-op">
+                <%if(data[i].def == 0){%>
+                <button class="btn btn-positive" onclick="addressSetDefAct(<%=data[i].id%>);">设为默认</button>
+                <%}else{%>
+                <button class="btn">默认地址</button>
+                <%}%>
+                <button class="btn btn-negative" onclick="addressDelAct(<%=data[i].id%>);">删除</button>
+            </div>
+            <%}%>
+
+        </li>
+        <%}%>
+    </ul>
+</script>
+
+<div class="content">
+    <div class="mui-address-list" id="containerAddress">
+
+    </div>
+    <div class="mui-empty">
+        <div class="item-icon">
+            <span class="icon icon-person"></span>
+        </div>
+        <div class="item-title">您的购物车还是空的呢~</div>
+        <div class="item-btn"><button type="button" class="btn">选购商品</button></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('title').text(getLocalCache('shopName'));
+
+        var showMode = getUrlParam("mode");
+        var url = window.location.href;
+
+        //UI处理
+        //$("#mainTab").hide();
+        $("#navBackBtn").click(function(){
+            window.location.href = "uc.html";
+        });
+        if(showMode == "select"){
+            $("#navAddBtn").attr("href","address_add.html?redirect="+url);
+        }
+
+        $.showAddressList("tempAddressList","containerAddress",showMode);
+
+    });
+
+    //删除收货地址
+    function addressDelAct(id){
+        $.modal({
+            title: "提示",
+            text: "确认删除地址吗？",
+            buttons: [
+                { text: "取消", className: "default", onClick: function(){
+
+                } },
+                { text: "删除", onClick: function(){
+                    var url = window.location.href;
+                    $.delAddress(id,url);
+                } },
+            ]
+        });
+
+        /*
+        if(confirm("确定删除吗?")){
+            var url = window.location.href;
+            $.delAddress(id,url);
+        } else {
+            return false;
+        }*/
+    }
+
+    //设置默认收货地址
+    function addressSetDefAct(id){
+        var url = window.location.href;
+        $.setDefAddress(id,url);
+    }
+
+    //设置默认收货地址
+    function addressSelectAct(id){
+        addressSetDefAct(id);
+        var url = "cart_check.html";
+        window.location.href = url;
+    }
+</script>
+
+</body>
+</html>

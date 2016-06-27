@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/jquery-ui.min.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="lib/ratchet/js/ratchet.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/page.touch.js"></script>
+    <script src="js/page.slider.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body id="containerGoodsItem">
+
+<header class="bar bar-nav">
+    <a class="icon icon-left-nav pull-left" id="navBackBtn"></a>
+    <h1 class="title">商品详情</h1>
+</header>
+
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+<!--TAB BAR END-->
+
+<script type="text/html" id="tempGoodsItem">
+    <div class="content content-goods-item">
+        <div class="mui-panel">
+            <div class="mui-goods-thumb">
+                <div class="items" id="containerGoodsThumb">
+                    <%for(var i=0; i < data.gphoto_list.length; i++){%>
+                    <div class="touchslider-viewport item-col">
+                        <div class="myAnimation">
+                            <img src="<%=data.gphoto_list[i]%><%=THUMB_LG%>" alt="">
+                        </div>
+                    </div>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+        <div class="mui-panel">
+            <div class="mui-goods-title"><%=data.gname%></div>
+            <%if(SHOPMODE=='B2B'){%>
+                <%if(data.price_style==1 && data.pkgsize==1){%>
+                    <div class="mui-goods-price">
+                        批发价：<strong><%=(data.price/data.spec).toFixed(2)%></strong> 元/<%=data.unit_base%>（<span class="red"><%=data.price%></span> 元/<%=data.unit%>）
+                    </div>
+                    <%if(data.retail_price){%>
+                    <div class="mui-goods-price">
+                        零售价：<%=data.retail_price%> 元/<%=data.unit_base%>
+                    </div>
+                    <%}%>
+                <%}else{%>
+                    <div class="mui-goods-price">
+                        批发价：<strong><%=data.price%></strong> 元/<%=data.unit%>
+                    </div>
+                    <%if(data.retail_price && data.pkgsize==1){%>
+                    <div class="mui-goods-price">
+                        零售价：<%=data.retail_price%> 元/<%=data.unit_base%>
+                    </div>
+                    <%}%>
+                    <%if(data.retail_price && data.pkgsize==0){%>
+                    <div class="mui-goods-price">
+                        零售价：<%=data.retail_price%> 元/<%=data.unit%>
+                    </div>
+                    <%}%>
+                <%}%>
+            <%}else{%>
+                <div class="mui-goods-price">
+                    价格：<strong><%=data.price%></strong> 元/<%=data.unit%>
+                </div>
+            <%}%>
+        </div>
+        <%if( data.marketid > 0 || data.marketid != null){%>
+        <div class="mui-panel">
+            <h2 class="mui-panel-title">活动促销</h2>
+
+            <div class="mui-goods-market" id="market_<%=data.id%>">
+
+            </div>
+
+        </div>
+        <%}%>
+        <div class="mui-panel">
+            <h2 class="mui-panel-title">规格参数</h2>
+            <div class="mui-spec">
+                <ul>
+                    <li><label>商品规格：</label><%=data.pkgspec%></li>
+                    <li><label>商品编码：</label><%=data.barcode%></li>
+                    <li><label>商品产地：</label><%=data.place%></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mui-panel">
+            <h2 class="mui-panel-title">商品详情</h2>
+            <div class="mui-panel-content">
+                <div class="mui-goods-content">
+                    <%:=data.content%>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="bar bar-standard bar-footer">
+        <div class="bar-footer-inner">
+            <div class="pull-left mui-bottom-cart" id="mainTabCartGoodsItem">
+                <a href="cart.html" class="icon micon-cart"></a>
+                <i class="badge"></i>
+            </div>
+
+            <button class="mui-btn-cart pull-right" onclick="addToCartForGoodsItem('gitem_<%=data.id%>','dimg_<%=data.id%>');" id="gitem_<%=data.id%>" data-id="<%=data.id%>" data-title="<%=data.gname%>" data-barcode="<%=data.barcode%>" data-price="<%=data.price%>" data-qty="1" data-img="<%=data.gphoto%>" data-scid="<%=data.company_id%>" data-restrict="<%=data.restrict%>" data-marketid="<%=data.marketid%>">加入购物车</button>
+            <a class="mui-btn-buynow pull-right" href="#myModal">立即购买</a>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+
+        <div class="modal-header">
+            <a class="icon icon-close pull-right" href="#myModal" ></a>
+        </div>
+
+        <div class="">
+            <div class="mui-buynow">
+                <div class="mui-panel">
+                    <div class="mui-goods-title"><%=data.gname%></div>
+                    <%if(data.pkgsize==1 && data.price_style==1){%>
+                    <div class="mui-goods-price">
+                        批发价：<strong><%=(data.price/data.spec).toFixed(2)%></strong> 元/<%=data.unit_base%>（<span class="red"><%=data.price%></span> 元/<%=data.unit%>）
+                    </div>
+                    <%}else{%>
+                    <div class="mui-goods-price">
+                        批发价：<strong><%=data.price%></strong> 元/<%=data.unit%>
+                    </div>
+                    <%}%>
+                </div>
+                <div class="item-num-edit">
+                    <span class="btn-minus" onclick="setBuyNowNum(-1)">-</span>
+                    <span class="btn-num"><input type="tel" id="buyNowNum" maxlength="4" data-qty="1" data-id="" name="" value="1"></span>
+                    <span class="btn-plus" onclick="setBuyNowNum(1)">+</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-block btn-primary" onclick="buyNowGoodsItem(this);" id="btnBuyNow" data-id="<%=data.id%>" data-title="<%=data.gname%>" data-barcode="<%=data.barcode%>" data-price="<%=data.price%>" data-qty="1" data-img="<%=data.gphoto%>" data-scid="<%=data.company_id%>" data-restrict="<%=data.restrict%>" data-marketid="<%=data.marketid%>">确定</button>
+        </div>
+    </div>
+
+</script>
+
+<script type="text/javascript">
+    $(function(){
+        $('title').text(getLocalCache('shopName'));
+
+        var mgid = getUrlParam("mgid");
+        //UI处理
+        $("#mainTab").hide();
+        $("#navBackBtn").click(function(){
+            history.go(-1);
+        });
+
+        $.showGoodsItem("tempGoodsItem","containerGoodsItem",mgid);
+
+    });
+
+    function setBuyNowNum(num){
+        var initNum = $("#buyNowNum").val();
+        var n = parseInt(initNum)+parseInt(num);
+        if(n>0){
+            $("#buyNowNum").val(n);
+            $("#btnBuyNow").attr("data-qty",n);
+        }else{
+            $("#buyNowNum").val(1);
+            $("#btnBuyNow").attr("data-qty",1)
+        }
+    }
+
+</script>
+
+</body>
+</html>

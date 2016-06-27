@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title></title>
+    <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
+    <link rel="stylesheet" href="lib/weui.css" type="text/css">
+    <link rel="stylesheet" href="css/app.css" type="text/css">
+
+    <script src="lib/jquery-2.1.4.js"></script>
+    <script src="lib/baiduTemplate.js"></script>
+    <script src="lib/jquery-weui.js"></script>
+    <script src="js/apiroute.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/mall.request.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+
+<header class="bar bar-nav">
+    <a class="icon icon-left-nav pull-left" id="navBackBtn"></a>
+    <h1 class="title">购买记录</h1>
+</header>
+
+<!--TAB BAR-->
+<nav class="bar bar-tab" id="mainTab">
+    <a class="tab-item" id="mainTabHome" href="home.html">
+        <span class="icon micon-home"></span>
+        <span class="tab-label">首页</span>
+    </a>
+    <a class="tab-item" id="mainTabCate" href="goods.html">
+        <span class="icon micon-cate"></span>
+        <span class="tab-label">分类</span>
+    </a>
+    <a class="tab-item" id="mainTabCart" href="cart.html">
+        <span class="icon micon-cart">
+            <i class="badge badge-positive">0</i>
+        </span>
+        <span class="tab-label">购物车</span>
+    </a>
+    <a class="tab-item" id="mainTabUC" href="uc.html">
+        <span class="icon micon-person"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>
+<!--TAB BAR END-->
+
+<script type="text/html" id="tempList">
+    <div class="items">
+    <%for(var i=0;i < data.length ;i++){%>
+    <div class="mui-panel item-order">
+        <div class="item-order-info">
+            <a href="javascript:void(0);">
+                <h2 class="item-title"><%=data[i].product_name%></h2>
+                <div id="item-group"><span class="item-code">订单号：<%=data[i].order_id%></span></div>
+                <div class="item-group">
+                    <span id="item-status">
+                        <%if(data[i].isup == 1){%>
+                        会员升级
+                        <%}else{%>
+                        会员购买
+                        <%}%>
+                        |
+                        下单时间：<%=data[i].create_time%>
+                    </span>
+                </div>
+            </a>
+        </div>
+        <div class="item-order-ext clearfix">
+            <div class="pull-left item-price-total">合计金额：<strong><%=data[i].total_amount%></strong> 元</div>
+            <div class="pull-right">
+                <%if(data[i].status==9) { %>
+                已支付
+                <%}%>
+                <%if(data[i].ispay==10) { %>
+                未支付
+                <%}%>
+
+            </div>
+        </div>
+    </div>
+    <%}%>
+    </div>
+</script>
+
+<div class="content">
+    <div class="mui-order-list" id="containerList">
+
+    </div>
+
+    <div class="mui-empty">
+        <div class="item-icon">
+            <span class="icon micon-empty"></span>
+        </div>
+        <div class="item-title">您还没有会员购买记录</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('title').text(getLocalCache('shopName'));
+
+        //UI处理
+        //$("#mainTab").hide();
+        $("#mainTabUC").addClass("active");
+        $("#navBackBtn").click(function(){
+            window.location.href = "uc.html";
+        });
+
+        //显示全部订单
+        $.getVipOrderList("tempList","containerList");
+
+    });
+
+</script>
+
+</body>
+</html>

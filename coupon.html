@@ -2,7 +2,7 @@
 @Author: jeffrey
 @Date:   2016-06-27T23:19:47+08:00
 @Last modified by:   jeffrey
-@Last modified time: 2016-06-27T23:29:03+08:00
+@Last modified time: 2016-07-01T00:31:41+08:00
 -->
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -33,7 +33,7 @@
 
 <header class="bar bar-nav">
     <a class="icon icon-left-nav pull-left" id="navBackBtn"></a>
-    <h1 class="title">我的优惠劵</h1>    
+    <h1 class="title">我的优惠劵</h1>
 </header>
 
 <!--TAB BAR-->
@@ -58,10 +58,65 @@
     </a>
 </nav>
 <!--TAB BAR END-->
+
+<script type="text/html" id="tempCouponList">
+  <div class="items">
+  <%for(var i=0;i < data.length ;i++){%>
+  <div class="mui-panel item-order">
+      <div class="item-order-info">
+              <h3 class="item-title">红包名称：<%=data[i].coupon_name%></h3>
+      </div>
+      <div class="item-goods-list">
+          <div class="items">
+            <div class="item-col">
+                <div class="item-goods" style="color:#ccc;">
+                    有效期:<%=data[i].coupon_use_start%>-<%=data[i].coupon_send_end%>
+                </div>
+              </div>
+        </div>
+      </div>
+      <div class="item-order-ext clearfix">
+          <div class="pull-left item-price-total">红包状态：<strong>
+            <%if(data[i].status==3) { %>
+              未使用
+            <%}%>
+            <%if(data[i].status==4) { %>
+              已使用
+            <%}%>
+            <%if(data[i].status==8) { %>
+              已作废
+            <%}%>
+          </strong> </div>
+      </div>
+  </div>
+  <%}%>
+  </div>
+</script>
+
+<div class="content">
+  <div class="mui-order-cate">
+      <div class="segmented-control" id="orderStatusList">
+          <a class="control-item active" id="coupon_status_1" href="javascript:switchTab(1);">全部</a>
+          <a class="control-item" id="coupon_status_3" href="javascript:switchTab(3);">未使用</a>
+          <a class="control-item" id="coupon_status_4" href="javascript:switchTab(4);">已使用</a>
+          <a class="control-item" id="coupon_status_8" href="javascript:switchTab(8);">已作废</a>
+      </div>
+  </div>
+  <div class="mui-order-list" id="containerList">
+
+  </div>
+    <div class="mui-empty">
+        <div class="item-icon">
+            <span class="icon icon-person"></span>
+        </div>
+        <div class="item-title">您暂时没有任何优惠劵</div>
+    </div>
+</div>
+
 <script type="text/javascript">
 $(function(){
     $('title').text(getLocalCache('shopName'));
-
+    $("#mainTabUC").addClass("active");
     var showMode = getUrlParam("mode");
     var url = window.location.href;
 
@@ -71,7 +126,16 @@ $(function(){
         window.location.href = "uc.html";
     });
 
+    $.getCouponList("tempCouponList","containerList",1,false);
 });
+
+
+function switchTab(status)
+{
+  $.getCouponList("tempCouponList","containerList",status,true);
+  $("a[id^=coupon_status_]").removeClass('active');
+  $("#coupon_status_"+status).addClass('active');
+}
 </script>
 
 </body>

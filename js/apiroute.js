@@ -2,7 +2,7 @@
 * @Author: jeffrey
 * @Date:   2016-06-27T18:48:34+08:00
 * @Last modified by:   jeffrey
-* @Last modified time: 2016-06-27T23:16:52+08:00
+* @Last modified time: 2016-06-28T00:13:20+08:00
 */
 
 
@@ -147,3 +147,6 @@ var ROUTE_VIP_ORDER_CHECK = API_BASE_URL_ + "/mall/vip_order_check"; //下单前
 var ROUTE_VIP_STORE = API_BASE_URL_ + "/mall/vip_store_list"; //获取PBS项目仓库
 var ROUTE_VIP_ORDER = API_BASE_URL_ + "/wx_customer/vip_create"; //购买服务下单
 var ROUTE_VIP_ORDER_LIST = API_BASE_URL_ + "/wx_customer/viporder_list"; //会员产品购买订单列表
+
+//优惠劵
+var ROUTE_COUPON_LIST = API_BASE_URL_+"/wx_coupon/list"; //优惠劵列表

@@ -2,7 +2,7 @@
 * @Author: jeffrey
 * @Date:   2016-06-27T18:48:34+08:00
 * @Last modified by:   jeffrey
-* @Last modified time: 2016-06-27T22:39:37+08:00
+* @Last modified time: 2016-07-01T00:34:19+08:00
 */
 
 
@@ -1829,4 +1829,39 @@ jQuery.extend({
         });
     },
 
+    //读取用户的优惠劵
+    getCouponList:function(bid,container,c_status,isclear){
+        $.showLoading("正在加载...");
+        $.ajax({
+            url:ROUTE_COUPON_LIST,
+            dataType: "jsonp",
+            jsonp: 'callback',
+            data:{
+              platform:getLocalCache('PLATFORM'),
+              scid:getLocalCache("scid"),
+              ticket:getLocalCache("ticket"),
+              ccid:getLocalCache("ccid"),
+              status:c_status,
+            },
+            success:function(data,textStatus){
+              $.hideLoading();
+              if (data != null && data.status == '200' && data.data != null) {
+                  if(isclear)
+                  {
+                      $("#" + container).empty();
+                  }
+
+                  if(data.data.length > 0 ){
+                    var html = bt(bid, data);
+                    $("#" + container).append(html);
+                    $('.mui-empty').hide();
+                  }else{
+                      $('.mui-empty').show();
+                  }
+              } else if (data.status == LOGIN_OUT_STATUS) {
+                  window.location.href = "/msg_fail.html?msg=登录失败";
+              }
+            }
+        });
+    },
 });

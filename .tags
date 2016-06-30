@@ -1,0 +1,173 @@
+html	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^<html lang="zh-CN">$/;"	function	line:8
+head	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^<head>$/;"	function	line:9
+meta	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <meta charset="UTF-8">$/;"	function	line:10
+meta	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <meta http-equiv="X-UA-Compatible" content="IE=edge">$/;"	function	line:11
+meta	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">$/;"	function	line:12
+meta	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <meta name="format-detection" content="telephone=no"\/>$/;"	function	line:13
+meta	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <meta name="keywords" content="">$/;"	function	line:14
+meta	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <meta name="description" content="">$/;"	function	line:15
+meta	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <meta name="author" content="">$/;"	function	line:16
+link	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <link rel="icon" href="favicon.ico">$/;"	function	line:17
+title	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <title><\/title>$/;"	function	line:18
+link	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <link rel="stylesheet" href="lib\/ratchet\/css\/ratchet.css" type="text\/css">$/;"	function	line:19
+link	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <link rel="stylesheet" href="lib\/weui.css" type="text\/css">$/;"	function	line:20
+link	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <link rel="stylesheet" href="css\/app.css" type="text\/css">$/;"	function	line:21
+script	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <script src="lib\/jquery-2.1.4.js"><\/script>$/;"	function	line:23
+script	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <script src="lib\/baiduTemplate.js"><\/script>$/;"	function	line:24
+script	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <script src="lib\/jquery-weui.js"><\/script>$/;"	function	line:25
+script	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <script src="js\/apiroute.js"><\/script>$/;"	function	line:26
+script	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <script src="js\/util.js"><\/script>$/;"	function	line:27
+script	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <script src="js\/cart.js"><\/script>$/;"	function	line:28
+script	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <script src="js\/mall.request.js"><\/script>$/;"	function	line:29
+script	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <script src="js\/app.js"><\/script>$/;"	function	line:30
+body	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^<body>$/;"	function	line:32
+header	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^<header class="bar bar-nav">$/;"	function	line:34
+a	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <a class="icon icon-left-nav pull-left" id="navBackBtn"><\/a>$/;"	function	line:35
+h	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <h1 class="title">我的优惠劵<\/h1>$/;"	function	line:36
+nav	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^<nav class="bar bar-tab" id="mainTab">$/;"	function	line:40
+a	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <a class="tab-item" id="mainTabHome" href="home.html">$/;"	function	line:41
+span	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^        <span class="icon micon-home"><\/span>$/;"	function	line:42
+span	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^        <span class="tab-label">首页<\/span>$/;"	function	line:43
+a	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <a class="tab-item" id="mainTabCate" href="goods.html">$/;"	function	line:45
+span	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^        <span class="icon micon-cate"><\/span>$/;"	function	line:46
+span	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^        <span class="tab-label">分类<\/span>$/;"	function	line:47
+a	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <a class="tab-item" id="mainTabCart" href="cart.html">$/;"	function	line:49
+span	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^        <span class="icon micon-cart">$/;"	function	line:50
+i	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^            <i class="badge badge-positive">0<\/i>$/;"	function	line:51
+span	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^        <span class="tab-label">购物车<\/span>$/;"	function	line:53
+a	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <a class="tab-item" id="mainTabUC" href="uc.html">$/;"	function	line:55
+span	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^        <span class="icon micon-person"><\/span>$/;"	function	line:56
+span	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^        <span class="tab-label">我的<\/span>$/;"	function	line:57
+script	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^<script type="text\/html" id="tempCouponList">$/;"	function	line:62
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^  <div class="items">$/;"	function	line:63
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^  <div class="mui-panel item-order">$/;"	function	line:65
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^      <div class="item-order-info">$/;"	function	line:66
+h	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^              <h3 class="item-title">红包名称：<%=data[i].coupon_name%><\/h3>$/;"	function	line:67
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^      <div class="item-goods-list">$/;"	function	line:69
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^          <div class="items">$/;"	function	line:70
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^            <div class="item-col">$/;"	function	line:71
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^                <div class="item-goods" style="color:#ccc;">$/;"	function	line:72
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^      <div class="item-order-ext clearfix">$/;"	function	line:78
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^          <div class="pull-left item-price-total">红包状态：<strong>$/;"	function	line:79
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^<div class="content">$/;"	function	line:96
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^  <div class="mui-order-cate">$/;"	function	line:97
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^      <div class="segmented-control" id="orderStatusList">$/;"	function	line:98
+a	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^          <a class="control-item active" id="coupon_status_1" href="javascript:switchTab(1);">全部<\/a>$/;"	function	line:99
+a	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^          <a class="control-item" id="coupon_status_3" href="javascript:switchTab(3);">未使用<\/a>$/;"	function	line:100
+a	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^          <a class="control-item" id="coupon_status_4" href="javascript:switchTab(4);">已使用<\/a>$/;"	function	line:101
+a	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^          <a class="control-item" id="coupon_status_8" href="javascript:switchTab(8);">已作废<\/a>$/;"	function	line:102
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^  <div class="mui-order-list" id="containerList">$/;"	function	line:105
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^    <div class="mui-empty">$/;"	function	line:108
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^        <div class="item-icon">$/;"	function	line:109
+span	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^            <span class="icon icon-person"><\/span>$/;"	function	line:110
+div	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^        <div class="item-title">您暂时没有任何优惠劵<\/div>$/;"	function	line:112
+script	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^<script type="text\/javascript">$/;"	function	line:116
+switchTab	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/coupon.html	/^function switchTab(status)$/;"	function	line:133
+bt	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^var bt = baidu.template;$/;"	variable	line:10
+orderPages	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^var orderPages = 0;$/;"	variable	line:11
+currentOrderPages	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^var currentOrderPages = 0;$/;"	variable	line:12
+base_login	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    base_login: function (errMsg) {$/;"	function	line:16
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:44
+error	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            error: function (jqXHR, textStatus, errorThrown) {$/;"	function	line:72
+getUserInfo	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    getUserInfo: function (container) {$/;"	function	line:78
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:87
+logout	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    logout: function () {$/;"	function	line:101
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:109
+showSupplierByCustomer	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showSupplierByCustomer: function (btid, container, callback) {$/;"	function	line:128
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:136
+showSupplierDetail	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showSupplierDetail: function () {$/;"	function	line:154
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:163
+showOrder	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showOrder: function(btid, container, status, page, limit){$/;"	function	line:181
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:194
+showOrderDetail	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showOrderDetail: function(btid, container, id){$/;"	function	line:212
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:221
+showOrderTrack	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showOrderTrack: function(btid, container, orderid, id){$/;"	function	line:240
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:250
+cancelOrder	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    cancelOrder: function(id,btn){$/;"	function	line:264
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:273
+showDeliveryGoods	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showDeliveryGoods: function (btid) {$/;"	function	line:285
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:293
+submitOrder	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    submitOrder: function (mode) {$/;"	function	line:312
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data) {$/;"	function	line:376
+error	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            error: function () {$/;"	function	line:396
+showHomeBySupplier	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showHomeBySupplier: function(btid, container, scid){$/;"	function	line:403
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:415
+showCateList	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showCateList: function(btid, container, code){$/;"	function	line:501
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:513
+showColumnList	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showColumnList: function(btid, container){$/;"	function	line:542
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:553
+setTimeout	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^                        setTimeout(function(){$/;"	function	line:571
+showGoodsList	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showGoodsList: function(btid, container, scid, code, page, limit){$/;"	function	line:587
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:600
+showGoodsListByColumn	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showGoodsListByColumn: function(btid, container, scid, columnid, page, limit){$/;"	function	line:649
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:661
+showHotGoods	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showHotGoods: function(btid, container, scid, limit){$/;"	function	line:701
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:711
+showHomeColumnGoods	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showHomeColumnGoods: function(btid, container, scid){$/;"	function	line:739
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:748
+showHomeGoods	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showHomeGoods: function(btid, container, scid, code, page, limit){$/;"	function	line:776
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:788
+showItemMarketList	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showItemMarketList: function (mgid, marketid) {$/;"	function	line:820
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:833
+showGoodsItem	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showGoodsItem: function(btid, container, mgid){$/;"	function	line:862
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:873
+showUserInfo	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showUserInfo: function (btid, container) {$/;"	function	line:911
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:920
+showAddressList	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showAddressList: function (btid, container, mode) {$/;"	function	line:941
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:951
+saveAddress	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    saveAddress: function (contacts, phone, province, city, county, street, url) {$/;"	function	line:969
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:984
+delAddress	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    delAddress: function (id, url) {$/;"	function	line:995
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1005
+setDefAddress	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    setDefAddress: function (id, url) {$/;"	function	line:1016
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1025
+showDefAddress	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showDefAddress: function (btid, container, ccid, hiddenId) {$/;"	function	line:1036
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1045
+saveFeedback	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    saveFeedback: function (ccid, memo, url) {$/;"	function	line:1062
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1073
+getWeixinOpenid	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    getWeixinOpenid: function (code, state) {$/;"	function	line:1084
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1103
+getWeixinOpenid2	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    getWeixinOpenid2: function (code, state) {$/;"	function	line:1116
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1135
+wxOpenidLogin	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    wxOpenidLogin: function (openid) {$/;"	function	line:1148
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1157
+wxOpenidLogin2	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    wxOpenidLogin2: function (openid) {$/;"	function	line:1198
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1207
+sendSMS	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    sendSMS: function (username) {$/;"	function	line:1237
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1247
+sendSMSusePhone	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    sendSMSusePhone: function (phone) {$/;"	function	line:1259
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1269
+bindAccount	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    bindAccount: function (phone, openid, sms) {$/;"	function	line:1281
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1293
+bindAccountForHuixiao	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    bindAccountForHuixiao: function (phone, openid, sms, pcode) {$/;"	function	line:1326
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1339
+vipRegAndBind	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    vipRegAndBind: function (contactor, phone, openid, sid, sms) {$/;"	function	line:1369
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1382
+unbindAccount	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    unbindAccount: function () {$/;"	function	line:1410
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1419
+showSearchGList	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showSearchGList: function (keyword, btid, container) {$/;"	function	line:1446
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1457
+showMarketInfo	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    showMarketInfo: function (mgid, marketid) {$/;"	function	line:1476
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1486
+paidSucc	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    paidSucc:function(scid, soid, ticket) {$/;"	function	line:1506
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1516
+payType	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    payType:function(scid, ticket, bid, container) {$/;"	function	line:1536
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1545
+payBank	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    payBank:function(scid, payType, bid, container) {$/;"	function	line:1567
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1579
+getCartInfo	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    getCartInfo:function(scid,deliverybid,paycontainer,infocontainer) {$/;"	function	line:1593
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1602
+getCompanyInfo	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    getCompanyInfo:function(state, bid, container) {$/;"	function	line:1644
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1662
+getVipStore	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    getVipStore:function( bid, container) {$/;"	function	line:1680
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1688
+getVipProduct	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    getVipProduct:function( bid, container) {$/;"	function	line:1701
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1710
+orderPrice	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    orderPrice: function(product_id) {$/;"	function	line:1730
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1741
+orderVip	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    orderVip:function(product_id) {$/;"	function	line:1771
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1786
+getVipOrderList	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    getVipOrderList:function( bid, container) {$/;"	function	line:1807
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success: function (data, textStatus) {$/;"	function	line:1817
+getCouponList	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^    getCouponList:function(bid,container,c_status,isclear){$/;"	function	line:1833
+success	/Users/jeffrey/Documents/dssmp/mi/www/app/phone/wx-customer/src/js/mall.request.js	/^            success:function(data,textStatus){$/;"	function	line:1846

@@ -333,26 +333,21 @@
         var cartMode = getUrlParam("mode") ? getUrlParam("mode") : ""; //获取购物车类型
         var cartobj = cart.displayCart(cartMode);
         var items = cartobj.items;
-        var gid = "";
-        if (items != null && items.length > 0) {
-            for (var i = 0; i < items.length; i++) {
-                gid += items[i].id;
-            }
-        }
         $.ajax({
             url: ROUTE_EXPRESS_ORDER_PRICE,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
                 express_detail_id: $("#logistics").val(),
-                gid: gid,
+                gid: JSON.stringify(items),
                 ticket: getLocalCache('ticket'),
+                scid: getLocalCache('scid'),
             },
             success: function (data, status) {
                 console.log(data);
                 if (data != null && data.status == 200) {
                     var res = data.data;
-                    $("#express_price").html("首重(1KG)价格(元):" + parseFloat(res.first_price).toFixed(2) + "续重每公斤(元):" + parseFloat(res.continue_price).toFixed(2));
+                    $("#express_price").html("首重(1KG)价格(元):" + parseFloat(res.first_price).toFixed(2) + "&nbsp;&nbsp;续重每公斤(元):" + parseFloat(res.continue_price).toFixed(2) + "&nbsp;&nbsp;物流费(元):" + parseFloat(res.express_price).toFixed(2));
                 }
             }
         });

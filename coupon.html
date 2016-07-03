@@ -126,13 +126,13 @@ $(function(){
         window.location.href = "uc.html";
     });
 
-    $.getCouponList("tempCouponList","containerList",1,false);
+    $.getCouponList("tempCouponList","containerList",1,false,true);
 });
 
 
 function switchTab(status)
 {
-  $.getCouponList("tempCouponList","containerList",status,true);
+  $.getCouponList("tempCouponList","containerList",status,true,true);
   $("a[id^=coupon_status_]").removeClass('active');
   $("#coupon_status_"+status).addClass('active');
 }

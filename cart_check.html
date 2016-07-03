@@ -130,13 +130,13 @@
     <div class="mui-panel">
         <div class="mui-cart-rank">
             <h2 class="mui-panel-title">配送信息</h2>
-            <div class="mui-panel-content" >
+            <div class="mui-panel-content">
                 <div id="delivery_info">配送时间：读取中...<br>
-                配送价格：读取中...</div>
+                    配送价格：读取中...
+                </div>
             </div>
         </div>
     </div>
-
 
 
     <div class="mui-panel">
@@ -146,6 +146,14 @@
         </div>
         <div class="mui-bank-list">
             <ul id="bankForPay"></ul>
+        </div>
+    </div>
+
+
+    <div class="mui-panel">
+        <h2 class="mui-panel-title">红包</h2>
+        <div class="mui-panel-content">
+            <select class="f-control" onchange="javascript:selectCoupon();" id="coupon"></select>
         </div>
     </div>
 
@@ -168,7 +176,7 @@
 </div>
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         $('title').text(getLocalCache('shopName'));
 
         var ccid = getLocalCache("ccid");
@@ -176,37 +184,84 @@
         var ticket = getLocalCache("ticket");
         //UI处理
         $("#mainTabCart").addClass("active");
-        $("#navBackBtn").click(function(){
+        $("#navBackBtn").click(function () {
             history.go(-1);
         });
 
-        $.showDefAddress("tempDefAddress","containerDefAddress", ccid, "addressId");
-        
-        $.getCartInfo(scid,"delivery",'payType','delivery_info');
+        $.showDefAddress("tempDefAddress", "containerDefAddress", ccid, "addressId");
+
+        $.getCartInfo(scid, "delivery", 'payType', 'delivery_info');
         checkorder();
 
-        $("#payType").change(function(){
+        $("#payType").change(function () {
             var type = $(this).val();
-            if(type==3 || type==4){
-                $.payBank(scid, type, 'tempBankForPay','bankForPay');
-            }else{
+            if (type == 3 || type == 4) {
+                $.payBank(scid, type, 'tempBankForPay', 'bankForPay');
+            } else {
                 $("#bankForPay").empty();
             }
         });
 
-        $('#submitOrderBtn').click(function(){
-            var cartMode = getUrlParam("mode")?getUrlParam("mode"):""; //获取购物车类型
+        $('#submitOrderBtn').click(function () {
+            var cartMode = getUrlParam("mode") ? getUrlParam("mode") : ""; //获取购物车类型
             $.submitOrder(cartMode);
         });
 
 
-
+        //绑定红包
+        $.getCouponList("", "coupon", 3, false, false);
 
     });
 
+    //选择红包
+    function selectCoupon() {
+        //如果选择了红包需要验证红包是否可以使用
+        var cartMode = getUrlParam("mode") ? getUrlParam("mode") : ""; //获取购物车类型
+        var coupon_id = $("#coupon").val();
+        var gmoney = cart.getTotalMoney(cartMode);
+        if (coupon_id > 0) {
+            //验证该红包是否可用
+            $.ajax({
+                url: ROUTE_COUPON_CHECK,
+                type: 'GET',
+                cache: false,
+                async: false,
+                dataType: "jsonp",
+                jsonp: 'callback',
+                data: {
+                    couid: coupon_id
+                },
+                success: function (data) {
+                    if (data.status != 200) {
+                        $.alert("该红包暂时不能使用");
+                        return;
+                    } else {
+                        //金额需要减去红包金额
+                        if (data.data != null && data.data.length > 0) {
+                            //如果是按商品的红包则判断该红包能不能使用
+                            var coupon_money = data.data[0].coupon_money;
+                            var pay_money = 0;
+                            if (gmoney > coupon_money) {
+                                pay_money = gmoney - coupon_money;
+                            } else {
+                                pay_money = 0;
+                            }
+                            $("#confirm-total").html(pay_money.toFixed(2));
+                        }
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        } else {
+            $("#confirm-total").html(gmoney);
+        }
+    }
+
     // 下单确认页面
     function checkorder() {
-        var cartMode = getUrlParam("mode")?getUrlParam("mode"):""; //获取购物车类型
+        var cartMode = getUrlParam("mode") ? getUrlParam("mode") : ""; //获取购物车类型
 
         var gtotal = cart.getCartTotal(cartMode);
         var gmoney = cart.getTotalMoney(cartMode);
@@ -221,7 +276,6 @@
             $(".cart-content").show();
             $(".mui-cart-bar-footer").show();
         }
-
 
 
         var cartobj = cart.displayCart(cartMode);
@@ -250,7 +304,7 @@
             //sp.appendTo(html);
 
             html_wrap.append(html);
-            $('<div class="goods-market" id="market_'+id+'"><ul></ul></div>').appendTo(html_wrap);
+            $('<div class="goods-market" id="market_' + id + '"><ul></ul></div>').appendTo(html_wrap);
             html_wrap.appendTo(ct);
             //$("#totalGoods").html(gtotal);
             $("#confirm-total").html(gmoney);

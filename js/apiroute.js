@@ -150,3 +150,4 @@ var ROUTE_VIP_ORDER_LIST = API_BASE_URL_ + "/wx_customer/viporder_list"; //会�
 
 //优惠劵
 var ROUTE_COUPON_LIST = API_BASE_URL_+"/wx_coupon/list"; //优惠劵列表
+var ROUTE_COUPON_CHECK=API_BASE_URL_+"/wx_coupon/check"; //检查是否可以使用该优惠劵

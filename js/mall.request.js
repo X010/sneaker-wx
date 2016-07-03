@@ -1,9 +1,9 @@
 /**
-* @Author: jeffrey
-* @Date:   2016-06-27T18:48:34+08:00
-* @Last modified by:   jeffrey
-* @Last modified time: 2016-07-01T00:34:19+08:00
-*/
+ * @Author: jeffrey
+ * @Date:   2016-06-27T18:48:34+08:00
+ * @Last modified by:   jeffrey
+ * @Last modified time: 2016-07-01T00:34:19+08:00
+ */
 
 
 
@@ -29,39 +29,39 @@ jQuery.extend({
         }
 
         enpassword = encryptWithRSA(password);
-        password = enpassword.replace(/\+/g,"_");
+        password = enpassword.replace(/\+/g, "_");
 
         //开始调用登陆接口
         $.ajax({
             url: ROUTE_LOGIN_URL,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                username:username,
-                password:password,
-                platform:"customer",
+            data: {
+                username: username,
+                password: password,
+                platform: "customer",
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200) {
                     var user = data.data;
                     if (user.id > 0) {
-                            //登陆成功，则将用户名和密码记在本地的location里面
-                            setLocalCache("username", username);
-                            setLocalCache("password", password);
-                            setLocalCache("uid", user.id);
-                            setLocalCache("ticket", user.ticket);
-                            setLocalCache("ccid",user.cid);
-                            setLocalCache('scid', 13);
+                        //登陆成功，则将用户名和密码记在本地的location里面
+                        setLocalCache("username", username);
+                        setLocalCache("password", password);
+                        setLocalCache("uid", user.id);
+                        setLocalCache("ticket", user.ticket);
+                        setLocalCache("ccid", user.cid);
+                        setLocalCache('scid', 13);
 
-                            window.location.href = "supplier.html";
-                            /*
-                            var ccid = user.cid;
-                            if (ccid == null || ccid == 'undefined') {
-                                window.location.href = "supplier.html";
-                            } else {
-                                window.location.href = "home.html";
-                            }
-                            */
+                        window.location.href = "supplier.html";
+                        /*
+                         var ccid = user.cid;
+                         if (ccid == null || ccid == 'undefined') {
+                         window.location.href = "supplier.html";
+                         } else {
+                         window.location.href = "home.html";
+                         }
+                         */
                     } else {
                         alert("用户名或密码错误");
                     }
@@ -81,7 +81,7 @@ jQuery.extend({
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
-                ticket:getLocalCache('ticket'),
+                ticket: getLocalCache('ticket'),
                 scid: getLocalCache('scid'),
             },
             success: function (data, textStatus) {
@@ -131,17 +131,17 @@ jQuery.extend({
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
-                ticket:getLocalCache('ticket'),
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 //console.log(data);
                 if (data != null && data.status == 200 && data.data != null) {
                     var html = bt(btid, data);
                     $("#" + container).append(html);
-                    if (typeof(callback) == 'function'){
+                    if (typeof(callback) == 'function') {
                         callback();
                     }
-                } else if ( data.status == 200 && data.data == null) {
+                } else if (data.status == 200 && data.data == null) {
                     $(".mui-empty").show();
                 } else if (data.status == LOGIN_OUT_STATUS) {
                     window.location.href = "/msg_fail.html?msg=登录失败";
@@ -156,9 +156,9 @@ jQuery.extend({
             url: ROUTE_CUSTOMER_SUPPLIER_DETAIL,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:getLocalCache("scid"),
-                ticket:getLocalCache('ticket'),
+            data: {
+                scid: getLocalCache("scid"),
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 //console.log(data);
@@ -168,7 +168,7 @@ jQuery.extend({
                     //if (typeof(callback) == 'function'){
                     //    callback();
                     //}
-                } else if ( data.status == 200 && data.data == null) {
+                } else if (data.status == 200 && data.data == null) {
                     $(".mui-empty").show();
                 } else if (data.status == LOGIN_OUT_STATUS) {
                     window.location.href = "/msg_fail.html?msg=登录失败";
@@ -178,27 +178,27 @@ jQuery.extend({
     },
 
     //显示订单列表
-    showOrder: function(btid, container, status, page, limit){
+    showOrder: function (btid, container, status, page, limit) {
         $.showLoading("正在加载...");
         var ticket = getLocalCache('ticket');
         $.ajax({
-            url: ROUTE_ORDER_CUSTOMER ,
+            url: ROUTE_ORDER_CUSTOMER,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                status:status ? status : -1,
-                page:page ? page : 1,
-                limit:limit ? limit : 25,
+            data: {
+                status: status ? status : -1,
+                page: page ? page : 1,
+                limit: limit ? limit : 25,
                 ticket: ticket,
             },
             success: function (data, textStatus) {
                 $.hideLoading();
                 //console.log("xxx"+data.data.length);
-                if (data != null && data.status == 200 && data.data != null && data.data.length !== 0 ) {
+                if (data != null && data.status == 200 && data.data != null && data.data.length !== 0) {
                     var html = bt(btid, data);
                     $("#" + container).empty().append(html);
                     $(".mui-empty").hide();
-                } else if (data.data == null || data.data.length === 0 ) {
+                } else if (data.data == null || data.data.length === 0) {
                     $("#" + container).empty();
                     $(".mui-empty").show();
                 } else if (data.status == LOGIN_OUT_STATUS) {
@@ -209,14 +209,14 @@ jQuery.extend({
     },
 
     //显示订单详情
-    showOrderDetail: function(btid, container, id){
+    showOrderDetail: function (btid, container, id) {
         $.ajax({
-            url: ROUTE_ORDER_DETAIL ,
+            url: ROUTE_ORDER_DETAIL,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                id:id,
-                ticket:getLocalCache('ticket'),
+            data: {
+                id: id,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 console.log(data);
@@ -226,7 +226,7 @@ jQuery.extend({
                     $("#" + container).empty().append(html);
 
                     //显示银行汇款账号信息
-                    $.payBank(data.data.scid, data.data.pt, 'tempBankForPay','bankForPay');
+                    $.payBank(data.data.scid, data.data.pt, 'tempBankForPay', 'bankForPay');
                 } else if (data.data == null) {
                     $(".ui-empty").show();
                 } else if (data.status == LOGIN_OUT_STATUS) {
@@ -237,15 +237,15 @@ jQuery.extend({
     },
 
     //订单跟踪
-    showOrderTrack: function(btid, container, orderid, id){
+    showOrderTrack: function (btid, container, orderid, id) {
         $.ajax({
-            url: ROUTE_ORDER_TRACK ,
+            url: ROUTE_ORDER_TRACK,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                orderno:orderid,
-                id:id,
-                ticket:getLocalCache('ticket'),
+            data: {
+                orderno: orderid,
+                id: id,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200 && data.data != null) {
@@ -261,14 +261,14 @@ jQuery.extend({
     },
 
     //取消订单
-    cancelOrder: function(id,btn){
+    cancelOrder: function (id, btn) {
         $.ajax({
-            url: ROUTE_ORDER_CANCEL ,
+            url: ROUTE_ORDER_CANCEL,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                id:id,
-                ticket:getLocalCache('ticket'),
+            data: {
+                id: id,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200) {
@@ -288,7 +288,7 @@ jQuery.extend({
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
-                ticket:getLocalCache('ticket')
+                ticket: getLocalCache('ticket')
             },
             success: function (data, textStatus) {
                 if (data.status == 200) {
@@ -346,6 +346,8 @@ jQuery.extend({
             return false;
         }
 
+        //如果选择了红包需要验证红包是否可以使用
+        var coupon_id = $("#coupon").val();
 
         $.showLoading("正在提交...");
 
@@ -358,8 +360,9 @@ jQuery.extend({
             "orderItem": JSON.stringify(orderItem),
             "ccid": getLocalCache("ccid"),
             "pt": $("#payType").val(),
-            "scid":scid,
+            "scid": scid,
             "ticket": getLocalCache('ticket'),
+            "couid": coupon_id,
         };
         var payType = parseInt($('#payType').val());
         var scid = getLocalCache("scid");
@@ -380,7 +383,7 @@ jQuery.extend({
                     cart.emptyCart(mode);
                     //window.location.href = "order.html?soid=" + superOrderId;
                     if (payType == 2) {
-                        window.location.href="pay.php?soid="+superOrderId+"&scid="+scid+"&openid="+openid+"&ticket="+ticket+"&env="+env;
+                        window.location.href = "pay.php?soid=" + superOrderId + "&scid=" + scid + "&openid=" + openid + "&ticket=" + ticket + "&env=" + env;
                     } else {
                         window.location.href = "msg_success.html?";
                     }
@@ -400,28 +403,28 @@ jQuery.extend({
     },
 
     //显示首页
-    showHomeBySupplier: function(btid, container, scid){
+    showHomeBySupplier: function (btid, container, scid) {
 
         $.showLoading("正在加载...");
 
         $.ajax({
-            url: ROUTE_HOME_PAGE ,
+            url: ROUTE_HOME_PAGE,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:scid,
-                ticket:getLocalCache('ticket'),
+            data: {
+                scid: scid,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 //console.log(data);
                 $.hideLoading();
                 if (data != null && data.status == 200 && data.data != null) {
                     var items = data.data;
-                    for(var i = 0; i < items.length; i++){
+                    for (var i = 0; i < items.length; i++) {
                         //焦点图
-                        if(items[i].type == 1){
+                        if (items[i].type == 1) {
 
-                            var rdata =  {
+                            var rdata = {
                                 data: eval(items[i].description)
                             };
 
@@ -437,17 +440,17 @@ jQuery.extend({
                             $("#containerFocus").append(c);
                         }
                         //入口
-                        if(items[i].type == 2){
-                            var rdata =  {
+                        if (items[i].type == 2) {
+                            var rdata = {
                                 data: eval(items[i].description)
                             };
                             var html = bt("temp-quick-default", rdata);
                             $("#" + container).append(html);
                         }
                         //快报
-                        if(items[i].type == 3){
+                        if (items[i].type == 3) {
 
-                            var rdata =  {
+                            var rdata = {
                                 data: eval(items[i].description)
                             };
                             var html = bt("temp-broadcast-default", rdata);
@@ -461,16 +464,15 @@ jQuery.extend({
                             }
                         }
                         //橱窗
-                        if(items[i].type == 4){
+                        if (items[i].type == 4) {
 
-                            var rdata =  {
+                            var rdata = {
                                 data: eval(items[i].description)
                             };
                             var html = bt("temp-showcase-default", rdata);
                             $("#" + container).append(html);
                         }
                     }
-
 
 
                     // new PageSlide(document.getElementById("containerFocus"), 'X');
@@ -498,26 +500,26 @@ jQuery.extend({
     },
 
     //显示分类
-    showCateList: function(btid, container, code){
+    showCateList: function (btid, container, code) {
         var currentCode = getUrlParam('code');
 
         $.ajax({
             url: ROUTE_READ_GTYPE,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:getLocalCache("scid"),
-                code:code,
-                ticket:getLocalCache('ticket'),
+            data: {
+                scid: getLocalCache("scid"),
+                code: code,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 //console.log(data);
                 if (data != null && data.status == 200 && data.data != null) {
 
-                    for(var i=0; i < data.data.length; i++){
-                        if(currentCode && data.data[i].code == currentCode.substr(0,4)){
+                    for (var i = 0; i < data.data.length; i++) {
+                        if (currentCode && data.data[i].code == currentCode.substr(0, 4)) {
                             data.data[i].active = 'active';
-                        }else{
+                        } else {
                             data.data[i].active = '';
                         }
                     }
@@ -527,7 +529,7 @@ jQuery.extend({
                     $("#" + container).empty().append(html);
 
                     //分类高亮定位补丁
-                    if(currentCode){
+                    if (currentCode) {
                         $(".goods-cate-group li:first").removeClass("active");
                     }
 
@@ -539,25 +541,25 @@ jQuery.extend({
     },
 
     //显示栏目列表
-    showColumnList: function(btid, container){
+    showColumnList: function (btid, container) {
         var currentColumn = getUrlParam('column');
 
         $.ajax({
             url: ROUTE_COLUMN_GET,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:getLocalCache("scid"),
-                ticket:getLocalCache('ticket'),
+            data: {
+                scid: getLocalCache("scid"),
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 //console.log(data);
                 if (data != null && data.status == 200 && data.data != null) {
 
-                    for(var i=0; i < data.data.length; i++){
-                        if(currentColumn && data.data[i].id == currentColumn){
+                    for (var i = 0; i < data.data.length; i++) {
+                        if (currentColumn && data.data[i].id == currentColumn) {
                             data.data[i].active = 'active';
-                        }else{
+                        } else {
                             data.data[i].active = '';
                         }
                     }
@@ -567,10 +569,10 @@ jQuery.extend({
 
                     //分类高亮定位补丁
 
-                    if(currentColumn>0){
-                        setTimeout(function(){
+                    if (currentColumn > 0) {
+                        setTimeout(function () {
                             $(".goods-cate-group li:first").removeClass("active");
-                        },100);
+                        }, 100);
 
                     }
 
@@ -584,18 +586,18 @@ jQuery.extend({
     },
 
     //全部商品和分类商品显示
-    showGoodsList: function(btid, container, scid, code, page, limit){
+    showGoodsList: function (btid, container, scid, code, page, limit) {
         $.showLoading("正在加载...");
         $.ajax({
             url: ROUTE_READ_GOODS_GTYPE,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:getLocalCache("scid"),
-                code:code,
-                page:page ? page : 1,
-                limit:limit ? limit : 20,
-                ticket:getLocalCache('ticket'),
+            data: {
+                scid: getLocalCache("scid"),
+                code: code,
+                page: page ? page : 1,
+                limit: limit ? limit : 20,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 //console.log(data);
@@ -616,26 +618,26 @@ jQuery.extend({
                     $(".mui-empty").hide();
 
                     //第一页清空后加载，否则累加加载
-                    if(page===1){
+                    if (page === 1) {
                         $("#" + container).empty().append(html);
-                    }else{
+                    } else {
                         $("#" + container).append(html);
                     }
 
                     // console.log(items.length + "|"+limit);
 
-                    if( items.length < limit ) {
+                    if (items.length < limit) {
                         $(".items-more").hide();
-                    }else{
+                    } else {
                         $(".items-more").show();
                     }
 
-                } else if ( data.status == 200 && data.data == null) {
-                    if(page==1){
+                } else if (data.status == 200 && data.data == null) {
+                    if (page == 1) {
                         $("#" + container).empty()
                         $(".mui-empty").show();
                         $(".items-more").hide();
-                    }else{
+                    } else {
                         $(".items-more").hide();
                     }
                 } else if (data.status == LOGIN_OUT_STATUS) {
@@ -646,17 +648,17 @@ jQuery.extend({
     },
 
     //按栏目显示商品
-    showGoodsListByColumn: function(btid, container, scid, columnid, page, limit){
+    showGoodsListByColumn: function (btid, container, scid, columnid, page, limit) {
         $.ajax({
             url: ROUTE_READ_GOODS_COLUMN,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:scid,
-                cateid:columnid,
-                page:page ? page : 1,
-                limit:limit ? limit : 25,
-                ticket:getLocalCache('ticket'),
+            data: {
+                scid: scid,
+                cateid: columnid,
+                page: page ? page : 1,
+                limit: limit ? limit : 25,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200 && data.data != null) {
@@ -669,21 +671,21 @@ jQuery.extend({
                             $.showItemMarketList(mgid, marketId);
                         }
                     }
-                     // console.log(data);
+                    // console.log(data);
                     var html = bt(btid, data);
                     $(".mui-empty").hide();
                     //$("#" + container).empty().append(html);
 
                     //第一页清空后加载，否则累加加载
-                    if(page===1){
+                    if (page === 1) {
                         $("#" + container).empty().append(html);
-                    }else{
+                    } else {
                         $("#" + container).append(html);
                     }
 
-                    if( items.length < limit ) {
+                    if (items.length < limit) {
                         $(".items-more").hide();
-                    }else{
+                    } else {
                         $(".items-more").show();
                     }
 
@@ -698,15 +700,15 @@ jQuery.extend({
     },
 
     //显示热购商品
-    showHotGoods: function(btid, container, scid, limit){
+    showHotGoods: function (btid, container, scid, limit) {
         $.ajax({
             url: ROUTE_CUSTOMER_HOT_GOODS,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:scid,
-                limit:limit ? limit : 6,
-                ticket:getLocalCache('ticket'),
+            data: {
+                scid: scid,
+                limit: limit ? limit : 6,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 //console.log(data);
@@ -736,13 +738,13 @@ jQuery.extend({
         });
     },
     //显示首页栏目的商品
-    showHomeColumnGoods: function(btid, container, scid){
+    showHomeColumnGoods: function (btid, container, scid) {
         $.ajax({
             url: ROUTE_COLUMN_GOOD,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:scid,
+            data: {
+                scid: scid,
                 ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
@@ -761,9 +763,9 @@ jQuery.extend({
                     $(".mui-empty").hide();
                     $("#" + container).empty().append(html);
 
-                } else if (data.status == 200 && data.data.length<=0) {
+                } else if (data.status == 200 && data.data.length <= 0) {
                     $("#" + container).empty();
-                    $.showHomeGoods("tempGoodsGrid","containerHotGoods",scid,"",1,20);
+                    $.showHomeGoods("tempGoodsGrid", "containerHotGoods", scid, "", 1, 20);
 
                     // $(".mui-empty").show();
                 } else if (data.status == LOGIN_OUT_STATUS) {
@@ -773,16 +775,16 @@ jQuery.extend({
         });
     },
     //显示所有商品
-    showHomeGoods: function(btid, container, scid, code, page, limit){
+    showHomeGoods: function (btid, container, scid, code, page, limit) {
         $.ajax({
             url: ROUTE_READ_GOODS_GTYPE,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:scid,
-                code:code,
-                page:page ? page : 1,
-                limit:limit ? limit : 25,
+            data: {
+                scid: scid,
+                code: code,
+                page: page ? page : 1,
+                limit: limit ? limit : 25,
                 ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
@@ -803,9 +805,11 @@ jQuery.extend({
                     $("#" + container).empty().append(html);
 
 
-                    $("img.lazy").lazyload({threshold:100,effect:"fadeIn",event : "sporty"});
+                    $("img.lazy").lazyload({threshold: 100, effect: "fadeIn", event: "sporty"});
 
-                    var timeout = setTimeout(function() { $("img.lazy").trigger("sporty") }, 2000);
+                    var timeout = setTimeout(function () {
+                        $("img.lazy").trigger("sporty")
+                    }, 2000);
 
                 } else if (data.status == 200 && data.data == null) {
                     $("#" + container).empty()
@@ -823,20 +827,20 @@ jQuery.extend({
             url: ROUTE_READ_GIVEAWAY,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                mgid:mgid,
-                mids:marketid,
-                scid:getLocalCache('scid'),
-                ccid:getLocalCache("ccid"),
-                ticket:getLocalCache('ticket'),
+            data: {
+                mgid: mgid,
+                mids: marketid,
+                scid: getLocalCache('scid'),
+                ccid: getLocalCache("ccid"),
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 var obj = $("#market_" + mgid);
                 obj.empty();
-                if ( data != null && data.status == 200) {
+                if (data != null && data.status == 200) {
                     var items = data.data;
                     //console.log(items);
-                    if( items != null && data.status == 200){
+                    if (items != null && data.status == 200) {
                         var tmp = "<ul>";
                         for (var i = 0; i < items.length; i++) {
                             tmp = tmp +
@@ -859,16 +863,16 @@ jQuery.extend({
     },
 
     //显示商品详情
-    showGoodsItem: function(btid, container, mgid){
+    showGoodsItem: function (btid, container, mgid) {
         var scid = getLocalCache("scid");
         $.ajax({
             url: ROUTE_READ_GOODS_INFO,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:scid,
-                id:mgid,
-                ticket:getLocalCache('ticket'),
+            data: {
+                scid: scid,
+                id: mgid,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200 && data.data != null) {
@@ -890,10 +894,10 @@ jQuery.extend({
                     //超宽图片处理
                     var imgs = $(".mui-goods-content img");
                     var screen_width = $(window).width();
-                    for(var i=0; i < imgs.length; i++){
-                        if($(imgs[i]).width() > screen_width){
-                            $(imgs[i]).attr('style','width: '+(screen_width -20)+'px;');
-                            $(imgs[i]).attr('width',screen_width -20);
+                    for (var i = 0; i < imgs.length; i++) {
+                        if ($(imgs[i]).width() > screen_width) {
+                            $(imgs[i]).attr('style', 'width: ' + (screen_width - 20) + 'px;');
+                            $(imgs[i]).attr('width', screen_width - 20);
                             $(imgs[i]).removeAttr('height');
                         }
                     }
@@ -914,8 +918,8 @@ jQuery.extend({
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
-                ticket:getLocalCache('ticket'),
-                scid:getLocalCache('scid')
+                ticket: getLocalCache('ticket'),
+                scid: getLocalCache('scid')
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200) {
@@ -924,8 +928,8 @@ jQuery.extend({
 
                     var html = bt(btid, data);
                     $("#" + container).append(html);
-                    if(getLocalCache('SHOPMODE') == 'B2C'){
-                        if(data.data.vip_level == '1'){
+                    if (getLocalCache('SHOPMODE') == 'B2C') {
+                        if (data.data.vip_level == '1') {
                             $(".item-des").hide();
                         }
                     }
@@ -944,19 +948,19 @@ jQuery.extend({
             url: ROUTE_ADDRESS_LIST,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                ccid:getLocalCache("ccid"),
-                ticket:getLocalCache('ticket'),
+            data: {
+                ccid: getLocalCache("ccid"),
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200) {
-                    for(var i=0; i < data.data.length; i++){
+                    for (var i = 0; i < data.data.length; i++) {
                         data.data[i].mode = mode;
                     }
                     var html = bt(btid, data);
                     $("#" + container).append(html);
                     $.hideLoading();
-                } else if ( data.data == null ||  data.data.length < 0) {
+                } else if (data.data == null || data.data.length < 0) {
                     $(".mui-empty").show();
                 } else if (data != null && data.status == LOGIN_OUT_STATUS) {
                     window.location.href = "msg_fail.html?msg=登录失败";
@@ -972,14 +976,14 @@ jQuery.extend({
             url: ROUTE_ADDRESS_ADDNEW,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                province:province,
-                city:city,
-                county:county,
-                street:street,
-                contacts:contacts,
-                phone:phone,
-                ticket:getLocalCache('ticket'),
+            data: {
+                province: province,
+                city: city,
+                county: county,
+                street: street,
+                contacts: contacts,
+                phone: phone,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200) {
@@ -995,12 +999,12 @@ jQuery.extend({
     delAddress: function (id, url) {
         //showLoading("<i class='fa rsicon-loading fa-spin'></i>信息提交中…");
         $.ajax({
-            url: ROUTE_ADDRESS_DEL ,
+            url: ROUTE_ADDRESS_DEL,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                id:id,
-                ticket:getLocalCache('ticket'),
+            data: {
+                id: id,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200) {
@@ -1015,12 +1019,12 @@ jQuery.extend({
     //设置默认收货地址
     setDefAddress: function (id, url) {
         $.ajax({
-            url: ROUTE_ADDRESS_DEFAULT ,
+            url: ROUTE_ADDRESS_DEFAULT,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                id:id,
-                ticket:getLocalCache('ticket'),
+            data: {
+                id: id,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200) {
@@ -1035,11 +1039,11 @@ jQuery.extend({
     //加载默认收货地址
     showDefAddress: function (btid, container, ccid, hiddenId) {
         $.ajax({
-            url: ROUTE_ADDRESS_GET_DEFAULT ,
+            url: ROUTE_ADDRESS_GET_DEFAULT,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                ccid:ccid,
+            data: {
+                ccid: ccid,
                 ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
@@ -1062,13 +1066,13 @@ jQuery.extend({
     saveFeedback: function (ccid, memo, url) {
         //showLoading("<i class='fa rsicon-loading fa-spin'></i>信息提交中…");
         $.ajax({
-            url: ROUTE_FEEDBACK_ADD ,
+            url: ROUTE_FEEDBACK_ADD,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
-                ccid:ccid,
-                memo:memo,
-                ticket:getLocalCache('ticket'),
+                ccid: ccid,
+                memo: memo,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200) {
@@ -1084,28 +1088,28 @@ jQuery.extend({
     getWeixinOpenid: function (code, state) {
 
         //PBS fix
-        if(state == 'pbs'){
-            setLocalCache('SHOPMODE','B2C');
-            setLocalCache('PLATFORM','pbs');
-        }else{
-            setLocalCache('SHOPMODE','B2B');
-            setLocalCache('PLATFORM','customer');
+        if (state == 'pbs') {
+            setLocalCache('SHOPMODE', 'B2C');
+            setLocalCache('PLATFORM', 'pbs');
+        } else {
+            setLocalCache('SHOPMODE', 'B2B');
+            setLocalCache('PLATFORM', 'customer');
         }
 
         $.ajax({
-            url: ROUTE_WX_OPENID ,
+            url: ROUTE_WX_OPENID,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
-                code:code,
-                state:state,
+                code: code,
+                state: state,
             },
             success: function (data, textStatus) {
                 console.log(data);
                 if (data != null && data.status == "0000") {
                     // $("#debug-openid").html("index OPENID:" + data.msg.openid);
                     var openid = data.msg.openid;
-                    setLocalCache("openid",openid);
+                    setLocalCache("openid", openid);
                     $.wxOpenidLogin(openid);
                 }
             }
@@ -1116,28 +1120,28 @@ jQuery.extend({
     getWeixinOpenid2: function (code, state) {
 
         //PBS fix
-        if(state == 'pbs'){
-            setLocalCache('SHOPMODE','B2C');
-            setLocalCache('PLATFORM','pbs');
-        }else{
-            setLocalCache('SHOPMODE','B2B');
-            setLocalCache('PLATFORM','customer');
+        if (state == 'pbs') {
+            setLocalCache('SHOPMODE', 'B2C');
+            setLocalCache('PLATFORM', 'pbs');
+        } else {
+            setLocalCache('SHOPMODE', 'B2B');
+            setLocalCache('PLATFORM', 'customer');
         }
 
         $.ajax({
-            url: ROUTE_WX_OPENID ,
+            url: ROUTE_WX_OPENID,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
-                code:code,
-                state:state,
+                code: code,
+                state: state,
             },
             success: function (data, textStatus) {
                 //console.log('getWeixinOpenid:' + data);
                 if (data != null && data.status == "0000") {
                     // $("#debug-openid").html("index OPENID:" + data.msg.openid);
                     var openid = data.msg.openid;
-                    setLocalCache("openid",openid);
+                    setLocalCache("openid", openid);
                     $.wxOpenidLogin2(openid);
                 }
             }
@@ -1147,28 +1151,28 @@ jQuery.extend({
     //使用微信OPENID尝试自动登录
     wxOpenidLogin: function (openid) {
         $.ajax({
-            url: ROUTE_WX_OPENID_LOGIN ,
+            url: ROUTE_WX_OPENID_LOGIN,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
-                openid:openid,
-                platform:getLocalCache('PLATFORM'),
+                openid: openid,
+                platform: getLocalCache('PLATFORM'),
             },
             success: function (data, textStatus) {
 
                 console.log(data);
                 if (data != null && data.status == '200') {
-                    if( data.data != null ){
+                    if (data.data != null) {
                         // $("#debug-user").html("USERINFO:" + JSON.stringify(data));
                         var user = data.data;
                         if (user.id > 0) {
                             setLocalCache("username", user.username);
                             setLocalCache("uid", user.id);
                             setLocalCache("ticket", user.ticket);
-                            setLocalCache("ccid",user.cid);
-                            setLocalCache("scid",user.scid);
-                            setLocalCache("shopName",user.mall_name);
-                            setLocalCache("cs_phone",user.cs_phone);
+                            setLocalCache("ccid", user.cid);
+                            setLocalCache("scid", user.scid);
+                            setLocalCache("shopName", user.mall_name);
+                            setLocalCache("cs_phone", user.cs_phone);
                         }
                         //console.log('wxOpenidLogin', data);
                         //自动登录
@@ -1176,17 +1180,17 @@ jQuery.extend({
                         window.location.href = "supplier.html";
                     } else {
                         //执行绑定流程
-                        if(getLocalCache('SHOPMODE') === 'B2C'){
+                        if (getLocalCache('SHOPMODE') === 'B2C') {
                             window.location.href = "vip_reg.html?openid=" + openid;
-                        }else {
+                        } else {
                             window.location.href = "account_bind.html?openid=" + openid;
                             //window.location.href='pay.html?id=958&soid=920160511185442638490&openid='+openid;
                         }
                     }
-                }else if (data != null && data.status == 300) {
-                    if(getLocalCache('SHOPMODE') === 'B2C'){
+                } else if (data != null && data.status == 300) {
+                    if (getLocalCache('SHOPMODE') === 'B2C') {
                         window.location.href = "vip_reg.html?openid=" + openid;
-                    }else {
+                    } else {
                         window.location.href = "account_bind.html?openid=" + openid;
                     }
                 }
@@ -1197,26 +1201,26 @@ jQuery.extend({
     //使用微信OPENID尝试自动登录，会销处理流程
     wxOpenidLogin2: function (openid) {
         $.ajax({
-            url: ROUTE_WX_OPENID_LOGIN ,
+            url: ROUTE_WX_OPENID_LOGIN,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
-                openid:openid,
-                platform:getLocalCache('PLATFORM'),
+                openid: openid,
+                platform: getLocalCache('PLATFORM'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200) {
 
-                    if( data.data != null ){
+                    if (data.data != null) {
                         // $("#debug-user").html("USERINFO:" + JSON.stringify(data));
                         var user = data.data;
                         if (user.id > 0) {
                             setLocalCache("username", user.username);
                             setLocalCache("uid", user.id);
                             setLocalCache("ticket", user.ticket);
-                            setLocalCache("ccid",user.cid);
-                            setLocalCache("scid",user.scid);
-                            setLocalCache("cs_phone",user.cs_phone);
+                            setLocalCache("ccid", user.cid);
+                            setLocalCache("scid", user.scid);
+                            setLocalCache("cs_phone", user.cs_phone);
                         }
                         //console.log('wxOpenidLogin', data);
                         //自动登录
@@ -1226,7 +1230,7 @@ jQuery.extend({
                         //执行绑定流程
                         window.location.href = "huixiao_bind.html?openid=" + openid;
                     }
-                }else if (data != null && data.status == 300) {
+                } else if (data != null && data.status == 300) {
                     window.location.href = "huixiao_bind.html?openid=" + openid;
                 }
             }
@@ -1237,12 +1241,12 @@ jQuery.extend({
     sendSMS: function (username) {
 
         $.ajax({
-            url: ROUTE_SEND_SMS ,
+            url: ROUTE_SEND_SMS,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
                 username: username,
-                platform : getLocalCache('PLATFORM'),
+                platform: getLocalCache('PLATFORM'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == "0000") {
@@ -1259,12 +1263,12 @@ jQuery.extend({
     sendSMSusePhone: function (phone) {
 
         $.ajax({
-            url: ROUTE_SEND_SMS_USE_PHONE ,
+            url: ROUTE_SEND_SMS_USE_PHONE,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
                 phone: phone,
-                platform : getLocalCache('PLATFORM'),
+                platform: getLocalCache('PLATFORM'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == "0000") {
@@ -1281,14 +1285,14 @@ jQuery.extend({
     bindAccount: function (phone, openid, sms) {
 
         $.ajax({
-            url: ROUTE_WX_BIND ,
+            url: ROUTE_WX_BIND,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
                 username: phone,
-                openid:openid,
-                verify:sms,
-                platform : getLocalCache('PLATFORM'),
+                openid: openid,
+                verify: sms,
+                platform: getLocalCache('PLATFORM'),
             },
             success: function (data, textStatus) {
                 if (data == null) {
@@ -1300,10 +1304,10 @@ jQuery.extend({
                             setLocalCache("username", user.username);
                             setLocalCache("uid", user.id);
                             setLocalCache("ticket", user.ticket);
-                            setLocalCache("ccid",user.cid);
-                            setLocalCache("scid",user.scid);
-                            setLocalCache("openid",openid);
-                            setLocalCache("cs_phone",user.cs_phone);
+                            setLocalCache("ccid", user.cid);
+                            setLocalCache("scid", user.scid);
+                            setLocalCache("openid", openid);
+                            setLocalCache("cs_phone", user.cs_phone);
                             //console.log('bindAccount', data);
                             window.location.href = "supplier.html";
                         } else {
@@ -1326,15 +1330,15 @@ jQuery.extend({
     bindAccountForHuixiao: function (phone, openid, sms, pcode) {
 
         $.ajax({
-            url: ROUTE_HUIXIAO_BIND ,
+            url: ROUTE_HUIXIAO_BIND,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
                 username: phone,
-                openid:openid,
-                verify:sms,
-                platform : getLocalCache('PLATFORM'),
-                pcode:pcode
+                openid: openid,
+                verify: sms,
+                platform: getLocalCache('PLATFORM'),
+                pcode: pcode
             },
             success: function (data, textStatus) {
                 console.log(data);
@@ -1347,10 +1351,10 @@ jQuery.extend({
                             setLocalCache("username", user.username);
                             setLocalCache("uid", user.id);
                             setLocalCache("ticket", user.ticket);
-                            setLocalCache("ccid",user.cid);
-                            setLocalCache("scid",user.scid);
-                            setLocalCache("openid",openid);
-                            setLocalCache("cs_phone",user.cs_phone);
+                            setLocalCache("ccid", user.cid);
+                            setLocalCache("scid", user.scid);
+                            setLocalCache("openid", openid);
+                            setLocalCache("cs_phone", user.cs_phone);
                             //console.log('bindAccount', data);
                             window.location.href = "supplier.html";
                         } else {
@@ -1368,16 +1372,16 @@ jQuery.extend({
     //会员注册和绑定微信
     vipRegAndBind: function (contactor, phone, openid, sid, sms) {
         $.ajax({
-            url: ROUTE_VIP_REG ,
+            url: ROUTE_VIP_REG,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
-                contactor:contactor,
+                contactor: contactor,
                 username: phone,
-                openid:openid,
-                verify:sms,
-                my_sid:sid,
-                platform : getLocalCache('PLATFORM'),
+                openid: openid,
+                verify: sms,
+                my_sid: sid,
+                platform: getLocalCache('PLATFORM'),
             },
             success: function (data, textStatus) {
                 if (data == null) {
@@ -1389,9 +1393,9 @@ jQuery.extend({
                             setLocalCache("username", user.username);
                             setLocalCache("uid", user.id);
                             setLocalCache("ticket", user.ticket);
-                            setLocalCache("ccid",user.cid);
-                            setLocalCache("scid",user.scid);
-                            setLocalCache("openid",openid);
+                            setLocalCache("ccid", user.cid);
+                            setLocalCache("scid", user.scid);
+                            setLocalCache("openid", openid);
                             //console.log('bindAccount', data);
                             window.location.href = "supplier.html";
                         } else {
@@ -1409,12 +1413,12 @@ jQuery.extend({
     //解绑账号
     unbindAccount: function () {
         $.ajax({
-            url: ROUTE_WX_UNBIND ,
+            url: ROUTE_WX_UNBIND,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
                 openid: getLocalCache("openid"),
-                platform : getLocalCache('PLATFORM'),
+                platform: getLocalCache('PLATFORM'),
             },
             success: function (data, textStatus) {
                 if (data == null) {
@@ -1427,14 +1431,14 @@ jQuery.extend({
                         clearLocalCache("ccid");
                         clearLocalCache("scid");
                         clearLocalCache("openid");
-                        if(getLocalCache('SHOPMODE')=='B2C'){
+                        if (getLocalCache('SHOPMODE') == 'B2C') {
                             window.location.href = "vip_reg.html";
-                        }else{
+                        } else {
                             window.location.href = "account_bind.html";
                         }
 
                     } else {
-                        $.alert('解绑出错:'+data.msg);
+                        $.alert('解绑出错:' + data.msg);
                     }
                 }
 
@@ -1450,9 +1454,9 @@ jQuery.extend({
             jsonp: 'callback',
             data: {
                 ccid: getLocalCache("ccid"),
-                k:keyword,
-                scid:getLocalCache("scid"),
-                ticket:getLocalCache('ticket'),
+                k: keyword,
+                scid: getLocalCache("scid"),
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 //$("#countNumber").text(data.count);
@@ -1475,7 +1479,7 @@ jQuery.extend({
     //显示营销信息
     showMarketInfo: function (mgid, marketid) {
         $.ajax({
-            url: ROUTE_MARKET_GETBYMGID ,
+            url: ROUTE_MARKET_GETBYMGID,
             dataType: "jsonp",
             jsonp: 'callback',
             data: {
@@ -1503,14 +1507,14 @@ jQuery.extend({
         });
     },
     //是否已经支付
-    paidSucc:function(scid, soid, ticket) {
+    paidSucc: function (scid, soid, ticket) {
         $.ajax({
-            url: ROUTE_PAY_RESULT_URL ,
+            url: ROUTE_PAY_RESULT_URL,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:scid,
-                soid:soid,
+            data: {
+                scid: scid,
+                soid: soid,
                 ticket: ticket
             },
             success: function (data, textStatus) {
@@ -1533,13 +1537,13 @@ jQuery.extend({
     },
 
     //支付方式
-    payType:function(scid, ticket, bid, container) {
+    payType: function (scid, ticket, bid, container) {
         $.ajax({
-            url: ROUTE_PAY_TYPE_URL ,
+            url: ROUTE_PAY_TYPE_URL,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:scid,
+            data: {
+                scid: scid,
                 ticket: ticket
             },
             success: function (data, textStatus) {
@@ -1549,9 +1553,9 @@ jQuery.extend({
 
                     //补丁，页面初始化时触发
                     var payType = $("#payType").val();
-                    if(payType==3 || payType==4){
-                        $.payBank(scid, payType, 'tempBankForPay','bankForPay');
-                    }else{
+                    if (payType == 3 || payType == 4) {
+                        $.payBank(scid, payType, 'tempBankForPay', 'bankForPay');
+                    } else {
                         $("#bankForPay").empty();
                     }
                 } else if (data.data == null) {
@@ -1564,17 +1568,17 @@ jQuery.extend({
     },
 
     //用于接收转账的银行账号
-    payBank:function(scid, payType, bid, container) {
+    payBank: function (scid, payType, bid, container) {
         if (payType == null) {
             payType = 3;
         }
         $.ajax({
-            url: ROUTE_PAY_BANK ,
+            url: ROUTE_PAY_BANK,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:scid,
-                type:payType,
+            data: {
+                scid: scid,
+                type: payType,
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200 && data.data != null) {
@@ -1590,14 +1594,14 @@ jQuery.extend({
         });
     },
     //获取 发货方式、支付方式、配送信息
-    getCartInfo:function(scid,deliverybid,paycontainer,infocontainer) {
+    getCartInfo: function (scid, deliverybid, paycontainer, infocontainer) {
         $.ajax({
-            url: ROUTE_ORDER_CART_INFO ,
+            url: ROUTE_ORDER_CART_INFO,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                scid:scid,
-                ticket:getLocalCache('ticket'),
+            data: {
+                scid: scid,
+                ticket: getLocalCache('ticket'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200 && data.data != null) {
@@ -1614,15 +1618,15 @@ jQuery.extend({
                     }
                     //支付方式
                     if (data.data.paytype.length) {
-                        for(var i =0; i< data.data.paytype.length; i++) {
+                        for (var i = 0; i < data.data.paytype.length; i++) {
                             $("#" + paycontainer).append("<option  value=" + data.data.paytype[i].key + ">" + data.data.paytype[i].value + "</option>");
                         }
 
                         //补丁，页面初始化时触发
                         var payType = $("#payType").val();
-                        if(payType==3 || payType==4){
-                            $.payBank(scid, payType, 'tempBankForPay','bankForPay');
-                        }else{
+                        if (payType == 3 || payType == 4) {
+                            $.payBank(scid, payType, 'tempBankForPay', 'bankForPay');
+                        } else {
                             $("#bankForPay").empty();
                         }
                     } else {
@@ -1630,7 +1634,7 @@ jQuery.extend({
                     }
                     //配送信息
                     if (data.data.info != null) {
-                        $('#'+infocontainer).html('配送时间：'+data.data.info.time+'<br>配送价格：'+data.data.info.fee);
+                        $('#' + infocontainer).html('配送时间：' + data.data.info.time + '<br>配送价格：' + data.data.info.fee);
                     }
                 } else if (data.data == null) {
 
@@ -1641,29 +1645,29 @@ jQuery.extend({
         });
     },
     //获取企业信息
-    getCompanyInfo:function(state, bid, container) {
+    getCompanyInfo: function (state, bid, container) {
 
         //PBS fix
-        if(state == 'pbs'){
-            setLocalCache('SHOPMODE','B2C');
-            setLocalCache('PLATFORM','pbs');
-        }else{
-            setLocalCache('SHOPMODE','B2B');
-            setLocalCache('PLATFORM','customer');
+        if (state == 'pbs') {
+            setLocalCache('SHOPMODE', 'B2C');
+            setLocalCache('PLATFORM', 'pbs');
+        } else {
+            setLocalCache('SHOPMODE', 'B2B');
+            setLocalCache('PLATFORM', 'customer');
         }
 
         $.ajax({
-            url: ROUTE_COM_INFO ,
+            url: ROUTE_COM_INFO,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                state:state,
+            data: {
+                state: state,
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200 && data.data != null) {
                     console.log(data);
-                    setLocalCache("shop-logo",data.data.logo);
-                    setLocalCache("shopName",data.data.name);
+                    setLocalCache("shop-logo", data.data.logo);
+                    setLocalCache("shopName", data.data.name);
                     $('title').text(data.data.name);
                     var html = bt(bid, data);
                     $("#" + container).append(html);
@@ -1677,13 +1681,13 @@ jQuery.extend({
     },
 
     //获取小区物业信息
-    getVipStore:function( bid, container) {
+    getVipStore: function (bid, container) {
         $.ajax({
-            url: ROUTE_VIP_STORE ,
+            url: ROUTE_VIP_STORE,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                platform:getLocalCache('PLATFORM'),
+            data: {
+                platform: getLocalCache('PLATFORM'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == '0000' && data.msg != null) {
@@ -1698,20 +1702,20 @@ jQuery.extend({
     },
 
     //获取会员产品列表
-    getVipProduct:function( bid, container) {
+    getVipProduct: function (bid, container) {
         $.ajax({
-            url: ROUTE_VIP_PRODUCT ,
+            url: ROUTE_VIP_PRODUCT,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                platform:getLocalCache('PLATFORM'),
-                ticket:getLocalCache("ticket"),
+            data: {
+                platform: getLocalCache('PLATFORM'),
+                ticket: getLocalCache("ticket"),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == '0000' && data.msg != null) {
 
                     var type = parseInt(data.msg.cctype);
-                    for(var i=0; i < data.msg.data.length; i++){
+                    for (var i = 0; i < data.msg.data.length; i++) {
                         if (type > parseInt(data.msg.data[i].cctype)) {
                             data.msg.data[i].disabled = true;
                         } else {
@@ -1727,32 +1731,32 @@ jQuery.extend({
         });
     },
     //批价
-    orderPrice: function(product_id) {
+    orderPrice: function (product_id) {
         $('.weui_dialog_confirm').hide();
         $.ajax({
-            url: ROUTE_VIP_GET_PRICE ,
+            url: ROUTE_VIP_GET_PRICE,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                platform:getLocalCache('PLATFORM'),
-                ticket:getLocalCache("ticket"),
+            data: {
+                platform: getLocalCache('PLATFORM'),
+                ticket: getLocalCache("ticket"),
                 product_id: product_id,
             },
             success: function (data, textStatus) {
-                if (data != null && data.err ==0 && data.msg != null) {
+                if (data != null && data.err == 0 && data.msg != null) {
                     $('.weui_dialog_title').html('付费提示');
                     if (data.msg.type == 2) {
-                        $('.weui_dialog_bd').html('需要支付的金额为'+data.msg.price+'元。是否继续？');
+                        $('.weui_dialog_bd').html('需要支付的金额为' + data.msg.price + '元。是否继续？');
                         $('.cancel').html('下次再买');
                         $('.sure').html('立即支付');
-                        $('.sure').on('click', function(){
+                        $('.sure').on('click', function () {
                             $.orderVip(product_id);
                         });
                     } else {
                         $('.weui_dialog_bd').html('可直接升级，需要支付的金额为0元。是否升级？');
                         $('.cancel').html('取消升级');
                         $('.sure').html('立即升级');
-                        $('.sure').on('click', function() {
+                        $('.sure').on('click', function () {
                             // $.changeVip(product_id);
                             $.orderVip(product_id);
                         });
@@ -1768,17 +1772,17 @@ jQuery.extend({
         });
     },
     //购买vip下单
-    orderVip:function(product_id) {
+    orderVip: function (product_id) {
         $('.weui_dialog_confirm').hide();
         $('.weui_loading_toast').css('transform', 'none');
         $('.weui_loading_toast').show();
         $.ajax({
-            url: ROUTE_VIP_ORDER ,
+            url: ROUTE_VIP_ORDER,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                platform:getLocalCache('PLATFORM'),
-                ticket:getLocalCache("ticket"),
+            data: {
+                platform: getLocalCache('PLATFORM'),
+                ticket: getLocalCache("ticket"),
                 ccid: getLocalCache('ccid'),
                 scid: getLocalCache('scid'),
                 productid: product_id,
@@ -1786,11 +1790,11 @@ jQuery.extend({
             success: function (data, textStatus) {
                 if (data != null && data.status == 200 && data.data != null) {
                     if (data.data == 'success') {
-                        window.location.href="/success.html?type=change";
+                        window.location.href = "/success.html?type=change";
                     } else {
                         var soid = data.data;
-                        var url = "/pay.php?env="+env+"&openid="+getLocalCache('openid')+"&ticket="+getLocalCache('ticket')+"&scid="+getLocalCache('scid');
-                        url = url+"&productid="+product_id+"&soid="+soid;
+                        var url = "/pay.php?env=" + env + "&openid=" + getLocalCache('openid') + "&ticket=" + getLocalCache('ticket') + "&scid=" + getLocalCache('scid');
+                        url = url + "&productid=" + product_id + "&soid=" + soid;
                         window.location.href = url;
                     }
 
@@ -1804,22 +1808,22 @@ jQuery.extend({
     },
 
     //会员购买列表
-    getVipOrderList:function( bid, container) {
+    getVipOrderList: function (bid, container) {
         $.ajax({
-            url: ROUTE_VIP_ORDER_LIST ,
+            url: ROUTE_VIP_ORDER_LIST,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-                platform:getLocalCache('PLATFORM'),
-                scid:getLocalCache("scid"),
-                ticket:getLocalCache("ticket"),
+            data: {
+                platform: getLocalCache('PLATFORM'),
+                scid: getLocalCache("scid"),
+                ticket: getLocalCache("ticket"),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == '200' && data.data != null) {
-                    if(data.data.length > 0 ){
+                    if (data.data.length > 0) {
                         var html = bt(bid, data);
                         $("#" + container).append(html);
-                    }else{
+                    } else {
                         $('.mui-empty').show();
                     }
                 } else if (data.status == LOGIN_OUT_STATUS) {
@@ -1830,37 +1834,47 @@ jQuery.extend({
     },
 
     //读取用户的优惠劵
-    getCouponList:function(bid,container,c_status,isclear){
+    getCouponList: function (bid, container, c_status, isclear, islist) {
         $.showLoading("正在加载...");
         $.ajax({
-            url:ROUTE_COUPON_LIST,
+            url: ROUTE_COUPON_LIST,
             dataType: "jsonp",
             jsonp: 'callback',
-            data:{
-              platform:getLocalCache('PLATFORM'),
-              scid:getLocalCache("scid"),
-              ticket:getLocalCache("ticket"),
-              ccid:getLocalCache("ccid"),
-              status:c_status,
+            data: {
+                platform: getLocalCache('PLATFORM'),
+                scid: getLocalCache("scid"),
+                ticket: getLocalCache("ticket"),
+                ccid: getLocalCache("ccid"),
+                status: c_status,
             },
-            success:function(data,textStatus){
-              $.hideLoading();
-              if (data != null && data.status == '200' && data.data != null) {
-                  if(isclear)
-                  {
-                      $("#" + container).empty();
-                  }
-
-                  if(data.data.length > 0 ){
-                    var html = bt(bid, data);
-                    $("#" + container).append(html);
-                    $('.mui-empty').hide();
-                  }else{
-                      $('.mui-empty').show();
-                  }
-              } else if (data.status == LOGIN_OUT_STATUS) {
-                  window.location.href = "/msg_fail.html?msg=登录失败";
-              }
+            success: function (data, textStatus) {
+                $.hideLoading();
+                if (data != null && data.status == '200' && data.data != null) {
+                    if (islist) {
+                        if (isclear) {
+                            $("#" + container).empty();
+                        }
+                        if (data.data.length > 0) {
+                            var html = bt(bid, data);
+                            $("#" + container).append(html);
+                            $('.mui-empty').hide();
+                        } else {
+                            $('.mui-empty').show();
+                        }
+                    } else {
+                        //将数据添加到下拉列表
+                        if (data.data.length > 0) {
+                            $("#" + container).append("<option value='-1'>暂不使用红包</option>");
+                            for (var i = 0; i < data.data.length; i++) {
+                                $("#" + container).append("<option value='" + data.data[i].id + "'>" + data.data[i].coupon_name + "</option>");
+                            }
+                        } else {
+                            $("#" + container).append("<option value='-1'>暂无红包</option>");
+                        }
+                    }
+                } else if (data.status == LOGIN_OUT_STATUS) {
+                    window.location.href = "/msg_fail.html?msg=登录失败";
+                }
             }
         });
     },

@@ -1066,10 +1066,6 @@ jQuery.extend({
                     var city = trim(data.data.city);
                     var county = trim(data.data.county);
                     var street = trim(data.data.street);
-                    console.log(province);
-                    console.log(city);
-                    console.log(county);
-                    console.log(street);
 
                     var wl_province = "";
                     if (province != null && province.length > 0) {
@@ -1106,7 +1102,7 @@ jQuery.extend({
                                     var express_data = data.data;
                                     $("#logistics").append("<option value='0'>请选择物流公司</option>")
                                     for (var i = 0; i < express_data.length; i++) {
-                                        $("#logistics").append("<option value='"+express_data[i].express_id+"'>"+express_data[i].express+"</option>")
+                                        $("#logistics").append("<option value='"+express_data[i].id+"'>"+express_data[i].express+"</option>")
                                     }
                                 }
                             }

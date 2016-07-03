@@ -250,13 +250,16 @@
                         //金额需要减去红包金额
                         if (data.data != null && data.data.length > 0) {
                             //如果是按商品的红包则判断该红包能不能使用
-                            var coupon_money = data.data[0].coupon_money;
+                            var coupon_money = parseFloat(data.data[0].coupon_money);
                             var pay_money = 0;
+                            console.log(coupon_money);
+                            console.log(gmoney);
                             if (gmoney > coupon_money) {
                                 pay_money = gmoney - coupon_money;
                             } else {
                                 pay_money = 0;
                             }
+                            console.log(pay_money);
                             $("#confirm-total").html(pay_money.toFixed(2));
                         }
                     }

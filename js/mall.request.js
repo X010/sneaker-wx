@@ -12,6 +12,11 @@ var orderPages = 0;
 var currentOrderPages = 0;
 //var touchPage = new PageTouch();
 
+function trim(str) {
+    //删除左右两端的空格
+    return str.replace(/(^s*)|(s*$)/g, "");
+}
+
 jQuery.extend({
     base_login: function (errMsg) {
         //rsa登录
@@ -1054,6 +1059,58 @@ jQuery.extend({
                         if (data.data != null) {
                             $("#" + hiddenId).val(data.data.id);
                         }
+                    }
+
+                    //获取地址则,并检测可用物流
+                    var province = trim(data.data.province);
+                    var city = trim(data.data.city);
+                    var county = trim(data.data.county);
+                    var street = trim(data.data.street);
+                    console.log(province);
+                    console.log(city);
+                    console.log(county);
+                    console.log(street);
+
+                    var wl_province = "";
+                    if (province != null && province.length > 0) {
+                        wl_province = province;
+                    } else {
+                        if (city != null && city.length > 0) {
+                            wl_province = city;
+                        } else {
+                            if (county != null && county.length > 0) {
+                                wl_province = county;
+                            } else {
+                                if (street != null && street.length > 0) {
+                                    var m_street = street.split(" ");
+                                    if (m_street != null && m_street.length > 0) {
+                                        wl_province = trim(m_street[0]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    //为省份
+                    if (wl_province != null && wl_province != "") {
+                        $.ajax({
+                            url: ROUTE_EXPRESS_LIST,
+                            dataType: 'jsonp',
+                            jsonp: 'callback',
+                            data: {
+                                province: wl_province,
+                                ticket: getLocalCache('ticket'),
+                            },
+                            success: function (data, textStatus) {
+                                if (data != null && data.status == 200 && data.data.length > 0) {
+                                    var express_data = data.data;
+                                    $("#logistics").append("<option value='0'>请选择物流公司</option>")
+                                    for (var i = 0; i < express_data.length; i++) {
+                                        $("#logistics").append("<option value='"+express_data[i].express_id+"'>"+express_data[i].express+"</option>")
+                                    }
+                                }
+                            }
+                        });
                     }
                 } else if (data != null && data.status == LOGIN_OUT_STATUS) {
                     window.location.href = "msg_fail.html?msg=登录失败";

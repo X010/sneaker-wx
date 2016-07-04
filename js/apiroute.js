@@ -17,7 +17,7 @@ var API_BASE_URL_;
 switch (env) {
     case "test":
         ROUTE_BASE_URL = "http://apiwx.test.ms9d.com";
-        API_BASE_URL_ = "http://local.api.test.ms9d.com";
+        API_BASE_URL_ = "http://local.api.test.ms9d.com";//API_BASE_URL_ = "http://local.test.ms9d.com:8003";
         LOGIN_OUT_STATUS = 8001;
         break;
     case "prod":

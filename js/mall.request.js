@@ -351,6 +351,12 @@ jQuery.extend({
             return false;
         }
 
+        var express_detail_id = $("#logistics").val();
+        if (express_detail_id == null || delivery == 'undefined' || parseInt(express_detail_id) <= 0) {
+            $.alert("请选择物流公司!");
+            return false;
+        }
+
         //如果选择了红包需要验证红包是否可以使用
         var coupon_id = $("#coupon").val();
 
@@ -358,6 +364,7 @@ jQuery.extend({
 
         //showLoading("<i class='fa rsicon-loading fa-spin'></i>订单提交中…");
         var scid = getLocalCache("scid");
+
         var postData = {
             "delivery": delivery,
             "addresseeId": addresseddId,
@@ -368,6 +375,7 @@ jQuery.extend({
             "scid": scid,
             "ticket": getLocalCache('ticket'),
             "couid": coupon_id,
+            "express_detail_id": express_detail_id,
         };
         var payType = parseInt($('#payType').val());
         var scid = getLocalCache("scid");
@@ -1102,7 +1110,7 @@ jQuery.extend({
                                     var express_data = data.data;
                                     $("#logistics").append("<option value='0'>请选择物流公司</option>")
                                     for (var i = 0; i < express_data.length; i++) {
-                                        $("#logistics").append("<option value='"+express_data[i].id+"'>"+express_data[i].express+"</option>")
+                                        $("#logistics").append("<option value='" + express_data[i].id + "'>" + express_data[i].express + "</option>")
                                     }
                                 }
                             }

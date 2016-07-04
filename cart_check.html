@@ -187,6 +187,10 @@
 </div>
 
 <script type="text/javascript">
+    var showMoney = 0;
+    var currentExpressMoney = 0;
+    var couponMoney = 0;
+
     $(function () {
         $('title').text(getLocalCache('shopName'));
 
@@ -232,6 +236,7 @@
         var gmoney = cart.getTotalMoney(cartMode);
         if (coupon_id > 0) {
             //验证该红包是否可用
+            $.showLoading("正在加载...");
             $.ajax({
                 url: ROUTE_COUPON_CHECK,
                 type: 'GET',
@@ -260,16 +265,30 @@
                                 pay_money = 0;
                             }
                             console.log(pay_money);
+                            couponMoney = couponMoney;
+
+                            //物流费用不参与优惠
+                            if (currentExpressMoney > 0) {
+                                pay_money = pay_money + currentExpressMoney;
+                            }
+
                             $("#confirm-total").html(pay_money.toFixed(2));
+                            showMoney = pay_money;
                         }
                     }
+                    $.hideLoading();
                 },
                 error: function () {
 
                 }
             });
         } else {
-            $("#confirm-total").html(gmoney);
+            var pay_money = parseFloat(gmoney);
+            if (currentExpressMoney > 0) {
+                pay_money = pay_money + currentExpressMoney;
+            }
+            $("#confirm-total").html(pay_money.toFixed(2));
+
         }
     }
 
@@ -322,7 +341,7 @@
             html_wrap.appendTo(ct);
             //$("#totalGoods").html(gtotal);
             $("#confirm-total").html(gmoney);
-
+            showMoney = gmoney;
             if (marketid != null || marketid != "undefined" || marketid.length > 0) {
                 $.showItemMarketList(id, marketid);
             }
@@ -336,6 +355,13 @@
         var cartMode = getUrlParam("mode") ? getUrlParam("mode") : ""; //获取购物车类型
         var cartobj = cart.displayCart(cartMode);
         var items = cartobj.items;
+        var gmoney = cart.getTotalMoney(cartMode);
+        var csex = $("#logistics").val();
+        if (csex <= 0) {
+            $.alert("请选择物流公司");
+            return false;
+        }
+        $.showLoading("正在加载...");
         $.ajax({
             url: ROUTE_EXPRESS_ORDER_PRICE,
             dataType: "jsonp",
@@ -350,8 +376,23 @@
                 console.log(data);
                 if (data != null && data.status == 200) {
                     var res = data.data;
+                    currentExpressMoney = parseFloat(res.express_price);
+                    var total_money = 0;
+                    if (couponMoney > 0) {
+                        if (gmoney > couponMoney) {
+                            total_money = gmoney - couponMoney;
+                        } else {
+                            total_money = 0;
+                        }
+                        total_money = total_money + currentExpressMoney;
+                    } else {
+                        total_money = parseFloat(gmoney) + currentExpressMoney;
+                    }
+                    $("#confirm-total").html(total_money.toFixed(2));
+
                     $("#express_price").html("首重(1KG)价格(元):" + parseFloat(res.first_price).toFixed(2) + "&nbsp;&nbsp;续重每公斤(元):" + parseFloat(res.continue_price).toFixed(2) + "&nbsp;&nbsp;物流费(元):" + parseFloat(res.express_price).toFixed(2));
                 }
+                $.hideLoading();
             }
         });
     }

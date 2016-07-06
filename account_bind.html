@@ -58,7 +58,6 @@
         
         //获取调整地址参数中的OPENID
         var openid = getUrlParam("openid");
-
         var isTouchDevice = 'ontouchstart' in window || navigator.msMaxTouchPoints;
         if (isTouchDevice) {
             $(document).on("touchend","#btnSendSMS",function(evt){

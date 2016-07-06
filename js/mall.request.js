@@ -44,7 +44,7 @@ jQuery.extend({
             data: {
                 username: username,
                 password: password,
-                platform: "customer",
+                platform: getLocalCache('PLATFORM'),
             },
             success: function (data, textStatus) {
                 if (data != null && data.status == 200) {

@@ -21,8 +21,8 @@ switch (env) {
         LOGIN_OUT_STATUS = 8001;
         break;
     case "prod":
-        ROUTE_BASE_URL = "http://cg.api.ms9d.com";
-        API_BASE_URL_ = "http://yc.api.ms9d.com";
+        ROUTE_BASE_URL = "http://cg.zsg.99yuncang.com";
+        API_BASE_URL_ = "http://api.zsg.99yuncang.com";
         LOGIN_OUT_STATUS = 8001;
         break;
     default:

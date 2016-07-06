@@ -13,6 +13,7 @@ var currentOrderPages = 0;
 //var touchPage = new PageTouch();
 
 function trim(str) {
+    if (str == null || str.length <= 0 || str == 'null') return "";
     //删除左右两端的空格
     return str.replace(/(^s*)|(s*$)/g, "");
 }
@@ -56,7 +57,7 @@ jQuery.extend({
                         setLocalCache("uid", user.id);
                         setLocalCache("ticket", user.ticket);
                         setLocalCache("ccid", user.cid);
-                        setLocalCache('scid', 13);
+                        setLocalCache('scid', 3329);
 
                         window.location.href = "supplier.html";
                         /*

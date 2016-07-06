@@ -1036,6 +1036,7 @@ jQuery.extend({
             url: ROUTE_ADDRESS_DEFAULT,
             dataType: "jsonp",
             jsonp: 'callback',
+            async: false,
             data: {
                 id: id,
                 ticket: getLocalCache('ticket'),

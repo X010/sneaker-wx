@@ -222,10 +222,34 @@
             $.submitOrder(cartMode);
         });
 
-
-        //绑定红包
-        $.getCouponList("", "coupon", 3, false, false);
-
+        var cartMode = getUrlParam("mode") ? getUrlParam("mode") : ""; //获取购物车类型
+        var gmoney = cart.getTotalMoney(cartMode);
+        var cartobj = cart.displayCart(cartMode);
+        //读取可以使用的红包
+        $.ajax({
+            url: ROUTE_CAN_USE_LIST,
+            dataType: "jsonp",
+            jsonp: 'callback',
+            data: {
+                platform: getLocalCache('PLATFORM'),
+                scid: getLocalCache("scid"),
+                ticket: getLocalCache("ticket"),
+                ccid: getLocalCache("ccid"),
+                items: JSON.stringify(cartobj.items),
+                order_total_money: gmoney,
+            },
+            success: function (data, status) {
+                $("#coupon").append("<option value='-1'>暂不使用红包</option>");
+                if(data!=null&&data.data!=null&&data.status==200&&data.data.length>0)
+                {
+                    for (var i = 0; i < data.data.length; i++) {
+                        $("#coupon").append("<option value='" + data.data[i].id + "'>" + data.data[i].coupon_name + "</option>");
+                    }
+                }else {
+                    $("#coupon").append("<option value='-1'>暂无红包</option>");
+                }
+            }
+        });
     });
 
     //选择红包
@@ -265,7 +289,7 @@
                                 pay_money = 0;
                             }
                             console.log(pay_money);
-                            couponMoney = couponMoney;
+                            couponMoney = coupon_money;
 
                             //物流费用不参与优惠
                             if (currentExpressMoney > 0) {

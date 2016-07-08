@@ -162,9 +162,6 @@
         <div class="mui-panel-content">
             <select class="f-control" onchange="selectExpressMoney();" id="logistics_money"></select>
         </div>
-        <div class="mui-bank-list">
-            <ul>物流余额:&nbsp;&nbsp;<strong id="logistics_money_show"></strong>元</ul>
-        </div>
     </div>
 
 
@@ -287,9 +284,7 @@
                     console.log("vip_" + lms);
                     if (lms > 0) {
                         clms = lms / 100;
-                        $("#logistics_money_show").html((lms / 100).toFixed(2));
-                        $("#logistics_money").append("<option value='1'>使用物流余额</option>");
-                        console.log(clms);
+                        $("#logistics_money").append("<option value='1'>使用物流余额("+clms+"元)</option>");
                     }
                 }
             }

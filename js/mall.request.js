@@ -366,6 +366,9 @@ jQuery.extend({
         //showLoading("<i class='fa rsicon-loading fa-spin'></i>订单提交中…");
         var scid = getLocalCache("scid");
 
+
+        var post_logistics_money = $("#logistics_money").val();
+
         var postData = {
             "delivery": delivery,
             "addresseeId": addresseddId,
@@ -377,6 +380,7 @@ jQuery.extend({
             "ticket": getLocalCache('ticket'),
             "couid": coupon_id,
             "express_detail_id": express_detail_id,
+            "use_express_money": post_logistics_money,
         };
         var payType = parseInt($('#payType').val());
         var scid = getLocalCache("scid");

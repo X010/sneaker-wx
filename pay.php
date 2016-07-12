@@ -9,9 +9,9 @@ $ticket = isset($_GET['ticket']) ? trim($_GET['ticket']) : '';
 $env    = isset($_GET['env']) ? trim($_GET['env']) : '';
 $productid = isset($_GET['productid']) ? trim($_GET['productid']) : '';
 if ($env == 'prod') {
-    define('ROUTE_PAY_INFO_URL','http://yc.api.ms9d.com');
+    define('ROUTE_PAY_INFO_URL','http://api.zsg.99yuncang.com');
 } else {
-    define('ROUTE_PAY_INFO_URL','http://api.test.ms9d.com');
+    define('ROUTE_PAY_INFO_URL','http://api.zsg.99yuncang.com');
 }
 //身份类字段必须传
 if (empty($soid) || empty($scid) || empty($openid) || empty($ticket)) {

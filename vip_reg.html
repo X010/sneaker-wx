@@ -85,7 +85,7 @@
             });
         } else {
             $(document).on("click","#btnSendSMS",function(evt){
-                clickSendSMS();
+                        clickSendSMS();
             });
 
             $(document).on("click","#btnBindAct",function(evt){
@@ -94,7 +94,6 @@
         }
 
         //规避iphone键盘未关闭就点击按钮时出现白屏的bug
-        /*
         $('#phone').focus(function(){
             $('#btnSendSMS').attr('disabled', 'disabled').css('pointer-events', 'none');
             $('#btnBindAct').attr('disabled', 'disabled').css('pointer-events', 'none');
@@ -111,7 +110,7 @@
             $('#btnSendSMS').removeAttr('disabled').css('pointer-events', '');
             $('#btnBindAct').removeAttr('disabled').css('pointer-events', '');
         });
-        */
+        
         var logo = getLocalCache("shop-logo") + THUMB_SM;
         if(logo){
             $('.item-logo img').attr("src",logo);

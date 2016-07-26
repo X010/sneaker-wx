@@ -50,7 +50,7 @@
             </div>
             <div class="item-group">
                 <label class="item-label micon-phone"></label>
-                <input type="text" maxlength="11" name="phone" id="phone" placeholder="请输入手机号" value="">
+                <input type="text" oninput="blurText2()"  maxlength="11" name="phone" id="phone" placeholder="请输入手机号" value="">
             </div>
             <div class="item-group">
                 <label class="item-label micon-login-password"></label>
@@ -186,6 +186,13 @@
         var leng = $("#sms").val();
         if (leng != null && leng.length >= 4) {
             $("#sms").blur();
+        }
+    }
+
+    function blurText2() {
+        var leng = $("#phone").val();
+        if (leng != null && leng.length >= 4) {
+            $("#phone").blur();
         }
     }
 

@@ -41,6 +41,7 @@
         <div class="item-form">
             <div class="item-group-select">
                 <label class="item-label micon-address"></label>
+
                 <div id="containerStore"></div>
             </div>
             <div class="item-group">
@@ -53,7 +54,7 @@
             </div>
             <div class="item-group">
                 <label class="item-label micon-login-password"></label>
-                <input type="text" maxlength="4" name="sms" id="sms" placeholder="请输入短信验证码" value="">
+                <input type="text" onchange="blurText()" maxlength="4" name="sms" id="sms" placeholder="请输入短信验证码" value="">
                 <button type="button" class="btn btn-send-sms" id="btnSendSMS">发送短信验证码</button>
             </div>
             <div class="item-submit">
@@ -69,54 +70,54 @@
 <script type="text/javascript">
     var seconds; //发送短信验证码的间隔秒数
 
-    $(function(){
-        
+    $(function () {
+
         //获取调整地址参数中的OPENID
         var openid = getUrlParam("openid");
 
         var isTouchDevice = 'ontouchstart' in window || navigator.msMaxTouchPoints;
         if (isTouchDevice) {
-            $(document).on("touchend","#btnSendSMS",function(evt){
+            $(document).on("touchend", "#btnSendSMS", function (evt) {
                 clickSendSMS()
             });
 
-            $(document).on("touchend","#btnBindAct",function(evt){
+            $(document).on("touchend", "#btnBindAct", function (evt) {
                 clickBindAct();
             });
         } else {
-            $(document).on("click","#btnSendSMS",function(evt){
-                        clickSendSMS();
+            $(document).on("click", "#btnSendSMS", function (evt) {
+                clickSendSMS();
             });
 
-            $(document).on("click","#btnBindAct",function(evt){
+            $(document).on("click", "#btnBindAct", function (evt) {
                 clickBindAct();
             });
         }
 
         //规避iphone键盘未关闭就点击按钮时出现白屏的bug
-        $('#phone').focus(function(){
+        $('#phone').focus(function () {
             $('#btnSendSMS').attr('disabled', 'disabled').css('pointer-events', 'none');
             $('#btnBindAct').attr('disabled', 'disabled').css('pointer-events', 'none');
-        }).blur(function(){
-            if($('#btnSendSMS').text().indexOf('重新发送') == -1){
+        }).blur(function () {
+            if ($('#btnSendSMS').text().indexOf('重新发送') == -1) {
                 $('#btnSendSMS').removeAttr('disabled').css('pointer-events', '');
                 $('#btnBindAct').removeAttr('disabled').css('pointer-events', '');
             }
         });
-        $('#sms').focus(function(){
+        $('#sms').focus(function () {
             $('#btnSendSMS').attr('disabled', 'disabled').css('pointer-events', 'none');
             $('#btnBindAct').attr('disabled', 'disabled').css('pointer-events', 'none');
-        }).blur(function(){
+        }).blur(function () {
             $('#btnSendSMS').removeAttr('disabled').css('pointer-events', '');
             $('#btnBindAct').removeAttr('disabled').css('pointer-events', '');
         });
-        
+
         var logo = getLocalCache("shop-logo") + THUMB_SM;
-        if(logo){
-            $('.item-logo img').attr("src",logo);
+        if (logo) {
+            $('.item-logo img').attr("src", logo);
         }
 
-        $.getVipStore("tempStore","containerStore");
+        $.getVipStore("tempStore", "containerStore");
 
 
     });
@@ -124,15 +125,15 @@
     /**
      * 点击发送短信按钮
      */
-    function clickSendSMS(){
+    function clickSendSMS() {
         var phone = $("#phone").val();
-        if (checkPhone(phone)){
-        //if (phone.length > 3){
-            setTimeout(function(){
+        if (checkPhone(phone)) {
+            //if (phone.length > 3){
+            setTimeout(function () {
                 seconds = 60;
                 $.sendSMSusePhone(phone);
                 countDown();
-            },0);
+            }, 0);
         } else {
             $.alert("请填写正确的手机号账号");
         }
@@ -141,21 +142,21 @@
     /**
      * 点击绑定账号按钮
      */
-    function clickBindAct(){
-        var sid = $('#sid').val() ;
+    function clickBindAct() {
+        var sid = $('#sid').val();
         if (parseInt(sid) <= 0) {
             $.alert("请选择小区物业点");
             return;
         }
-        if ($.trim($('#sms').val()) != ''){
-            setTimeout(function(){
+        if ($.trim($('#sms').val()) != '') {
+            setTimeout(function () {
                 var sid = $("#sid").val();
                 var contactor = $("#contactor").val();
                 var phone = $("#phone").val();
                 var sms = $("#sms").val();
                 var openid = getUrlParam("openid");
                 $.vipRegAndBind(contactor, phone, openid, sid, sms);
-            },0);
+            }, 0);
         } else {
             $.alert("请填写验证码");
         }
@@ -164,13 +165,13 @@
     /**
      * 再次发送倒计时
      */
-    function countDown(){
+    function countDown() {
         //console.log(seconds);
-        if (seconds){
+        if (seconds) {
             var txt = --seconds + '秒后重新发送';
             $('#btnSendSMS').text(txt).attr("disabled", "disabled").css('pointer-events', 'none');
             var timeId = setTimeout("countDown()", 1000);
-            if(seconds == 0){
+            if (seconds == 0) {
                 clearTimeout(timeId);
                 $('#btnSendSMS').removeAttr('disabled').css('pointer-events', '').text('发送短信验证码');
                 seconds = 6;
@@ -180,6 +181,13 @@
         }
     }
 
+
+    function blurText() {
+        var leng = $("#sms").val();
+        if (leng != null && leng.length >= 4) {
+            document.activeElement.blur();
+        }
+    }
 
 </script>
 

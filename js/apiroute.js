@@ -8,16 +8,16 @@
 
 
 //URL 路由配置
-//var SHOPMODE = 'B2C'; //商城类型：B2B、B2C,默认为B2B
+var SHOPMODE = 'B2C'; //商城类型：B2B、B2C,默认为B2B
 //var PLATFORM = 'pbs'; //平台类型：customer、pbs，默认为customer
-var env = "test";
+var env = "prod";
 
 var ROUTE_BASE_URL;
 var API_BASE_URL_;
 switch (env) {
     case "test":
-        ROUTE_BASE_URL = "http://apiwx.test.ms9d.com";
-        API_BASE_URL_ = "http://local.api.test.ms9d.com";//API_BASE_URL_ = "http://local.test.ms9d.com:8003";
+        ROUTE_BASE_URL = "http://cg.zsg.99yuncang.com";
+        API_BASE_URL_ = "http://api.zsg.99yuncang.com";//API_BASE_URL_ = "http://local.test.ms9d.com:8003";
         LOGIN_OUT_STATUS = 8001;
         break;
     case "prod":
@@ -151,7 +151,9 @@ var ROUTE_VIP_ORDER_LIST = API_BASE_URL_ + "/wx_customer/viporder_list"; //会�
 //优惠劵
 var ROUTE_COUPON_LIST = API_BASE_URL_ + "/wx_coupon/list"; //优惠劵列表
 var ROUTE_COUPON_CHECK = API_BASE_URL_ + "/wx_coupon/check"; //检查是否可以使用该优惠劵
+var ROUTE_CAN_USE_LIST=API_BASE_URL_+"/wx_coupon/order_coupon";//读取可以使用的红包
 
 //物流信息接口
 var ROUTE_EXPRESS_LIST = API_BASE_URL_ + "/wx_express/express_get";// 获取接物流公司信息
 var ROUTE_EXPRESS_ORDER_PRICE = API_BASE_URL_ + "/wx_express/express_order_price";//获取该订单的物流费用
+var ROUTE_BLANCE_MONEY=API_BASE_URL_+"/wx_express/express_balance_get";//获取物流余额

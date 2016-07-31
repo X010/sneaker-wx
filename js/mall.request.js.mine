@@ -911,16 +911,13 @@ jQuery.extend({
 
                     //超宽图片处理
                     var imgs = $(".mui-goods-content img");
-
                     var screen_width = $(window).width();
-
-                    for(var i=0; i < imgs.length; i++){
-                        console.log($(imgs[i]).width());
-                        //if($(imgs[i]).width() > screen_width){
-                            $(imgs[i]).attr('style','width: '+(screen_width -20)+'px;');
-                            $(imgs[i]).attr('width',screen_width -20);
+                    for (var i = 0; i < imgs.length; i++) {
+                        if ($(imgs[i]).width() > screen_width) {
+                            $(imgs[i]).attr('style', 'width: ' + (screen_width - 20) + 'px;');
+                            $(imgs[i]).attr('width', screen_width - 20);
                             $(imgs[i]).removeAttr('height');
-                        //}
+                        }
                     }
 
                 } else if (data.status == 200 && data.data == null) {

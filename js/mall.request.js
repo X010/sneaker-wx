@@ -319,6 +319,20 @@ jQuery.extend({
         var cartOrderItem = cart.displayCart(mode);
         console.log(cartOrderItem);
 
+        //获取卡密列表
+        var card_list=$("#card_no_list li");
+        var card_list_str='';
+        if(card_list!=null&&card_list.length>0)
+        {
+            for(var ji=0;ji<card_list.length;ji++){
+                console.log(card_list[ji]);
+                card_list_str+=card_list[ji].innerHTML+",";
+            }
+        }
+
+        console.log(card_list_str);
+
+
         var orderItem = [];
         if (cartOrderItem == null || cartOrderItem.items == null || cartOrderItem.items.length <= 0) {
             $.alert("请先选购商品");
@@ -358,6 +372,8 @@ jQuery.extend({
             return false;
         }
 
+
+
         //如果选择了红包需要验证红包是否可以使用
         var coupon_id = $("#coupon").val();
 
@@ -381,6 +397,7 @@ jQuery.extend({
             "couid": coupon_id,
             "express_detail_id": express_detail_id,
             "use_express_money": post_logistics_money,
+            "card_list_str":card_list_str,
         };
         var payType = parseInt($('#payType').val());
         var scid = getLocalCache("scid");

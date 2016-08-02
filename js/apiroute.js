@@ -152,6 +152,7 @@ var ROUTE_VIP_ORDER_LIST = API_BASE_URL_ + "/wx_customer/viporder_list"; //会�
 var ROUTE_COUPON_LIST = API_BASE_URL_ + "/wx_coupon/list"; //优惠劵列表
 var ROUTE_COUPON_CHECK = API_BASE_URL_ + "/wx_coupon/check"; //检查是否可以使用该优惠劵
 var ROUTE_CAN_USE_LIST=API_BASE_URL_+"/wx_coupon/order_coupon";//读取可以使用的红包
+var ROUTE_ACTIVE_CHECK=API_BASE_URL_+"/wx_coupon/active_card";//验证卡密
 
 //物流信息接口
 var ROUTE_EXPRESS_LIST = API_BASE_URL_ + "/wx_express/express_get";// 获取接物流公司信息

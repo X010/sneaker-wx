@@ -36,6 +36,7 @@
 
 <header class="bar bar-nav">
     <a class="icon icon-left-nav pull-left" id="navBackBtn"></a>
+
     <h1 class="title">填写订单</h1>
 </header>
 
@@ -68,6 +69,7 @@
         <li class="table-view-cell">
             <a href="address.html?mode=select" class="navigate-right">
                 <span class="table-view-cell-title">收货地址</span>
+
                 <div class="item-contact"><strong><%=data.contacts%></strong> <strong><%=data.phone%></strong></div>
                 <div class="item-address"><span id="province"><%=data.province%></span><span id="city"><%=data.city%></span><span
                         id="county"><%=data.county%></span><span id="street"><%=data.street%></span></div>
@@ -131,6 +133,7 @@
             </ul>
         </div>
         <h2 class="mui-panel-title">送货紧急度</h2>
+
         <div class="mui-panel-content">
             <select class="f-control" id="delivery"></select>
         </div>
@@ -139,6 +142,7 @@
     <div class="mui-panel">
         <div class="mui-cart-rank">
             <h2 class="mui-panel-title">配送信息</h2>
+
             <div class="mui-panel-content">
                 <div id="delivery_info">配送时间：读取中...<br>
                     配送价格：读取中...
@@ -149,6 +153,7 @@
 
     <div class="mui-panel">
         <h2 class="mui-panel-title">物流公司</h2>
+
         <div class="mui-panel-content">
             <select class="f-control" onchange="javascript:selectExpress();" id="logistics"></select>
         </div>
@@ -159,6 +164,7 @@
 
     <div class="mui-panel">
         <h2 class="mui-panel-title">物流余额</h2>
+
         <div class="mui-panel-content">
             <select class="f-control" onchange="selectExpressMoney();" id="logistics_money"></select>
         </div>
@@ -167,6 +173,7 @@
 
     <div class="mui-panel">
         <h2 class="mui-panel-title">支付方式</h2>
+
         <div class="mui-panel-content">
             <select class="f-control" id="payType"></select>
         </div>
@@ -178,14 +185,30 @@
 
     <div class="mui-panel">
         <h2 class="mui-panel-title">红包</h2>
+
         <div class="mui-panel-content">
             <select class="f-control" onchange="javascript:selectCoupon();" id="coupon"></select>
         </div>
     </div>
 
     <div class="mui-panel">
+        <h2 class="mui-panel-title">使用卡密</h2>
+
+        <div class="mui-panel-content">
+            <ul id="card_no_list">
+
+            </ul>
+        </div>
+        <div class="mui-panel-content">
+            <input id="card_no" style="width: 60%;" type="text">
+            <button style="width:30%;height: 100%;" class="btn" onclick="activeCardNo();" id="activeCard">添加卡密</button>
+        </div>
+    </div>
+
+    <div class="mui-panel">
         <div class="mui-cart-rank">
             <h2 class="mui-panel-title">备注</h2>
+
             <div class="mui-panel-content">
                 <input class="f-control" id="memo" type="text">
             </div>
@@ -206,6 +229,7 @@
     var currentExpressMoney = 0;
     var clms = 0;
     var couponMoney = 0;
+    var cardMemory = 0;
 
     $(function () {
         $('title').text(getLocalCache('shopName'));
@@ -284,7 +308,7 @@
                     console.log("vip_" + lms);
                     if (lms > 0) {
                         clms = lms / 100;
-                        $("#logistics_money").append("<option value='1'>使用物流余额("+clms+"元)</option>");
+                        $("#logistics_money").append("<option value='1'>使用物流余额(" + clms + "元)</option>");
                     }
                 }
             }
@@ -334,6 +358,15 @@
             }
         }
 
+
+        if (cardMemory > 0) {
+            if (order_m >= cardMemory) {
+                order_m = order_m - cardMemory;
+            } else {
+                order_m = 0;
+            }
+        }
+
         if (logistics_money == 1) {
             if (clms <= currentExpressMoney) {
                 order_m += (currentExpressMoney - clms);
@@ -341,6 +374,7 @@
         } else {
             order_m += currentExpressMoney;
         }
+
 
         $("#confirm-total").html(order_m.toFixed(2));
     }
@@ -482,6 +516,47 @@
                 $.hideLoading();
             }
         });
+    }
+
+    /**
+     * 激活卡密
+     */
+    function activeCardNo() {
+        var cartMode = getUrlParam("mode") ? getUrlParam("mode") : ""; //获取购物车类型
+        var cartobj = cart.displayCart(cartMode);
+        var items = cartobj.items;
+        var card_no = $("#card_no").val();
+
+        if (card_no == null || card_no.length <= 0 || card_no == "undefined") {
+            $.alert("请输入卡密!");
+            return false;
+        }
+
+        //验证卡密是否正确，并验正是否正确
+        $.ajax({
+            url: ROUTE_ACTIVE_CHECK,
+            dataType: "jsonp",
+            jsonp: 'callback',
+            data: {
+                card_no: card_no,
+                gid: JSON.stringify(items),
+                ticket: getLocalCache('ticket'),
+                scid: getLocalCache('scid'),
+            },
+            success: function (data, status) {
+                console.log(data);
+                if (data != null && data.status != null && data.status == 200 && data.data != null && data.data.length >= 1) {
+                    //显示列表
+                    cardMemory += parseFloat(data.data[0].coupon_money);
+                    $("#card_no_list").append("<li>"+data.data[0].card_number+"<li>");
+                    showOrderMoney();
+                } else {
+                    $.alert("输入卡密不正确");
+                }
+                $("#card_no").val("");
+            }
+        });
+
     }
 </script>
 

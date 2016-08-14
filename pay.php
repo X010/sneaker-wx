@@ -78,7 +78,7 @@ function curl($url, $formdata = null, $method = 'GET', $time_out = 5, $retry_tim
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
-    <title>99云商</title>
+    <title>珍食贡</title>
     <link rel="stylesheet" href="lib/ratchet/css/ratchet.css" type="text/css">
     <link rel="stylesheet" href="lib/weui.css" type="text/css">
     <link rel="stylesheet" href="css/app.css" type="text/css">

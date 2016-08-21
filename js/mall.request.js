@@ -405,6 +405,7 @@ jQuery.extend({
             "use_express_money": post_logistics_money,
             "card_list_str":card_list_str,
         };
+        var paymoenry_time=parseFloat($("confirm-total").val());
         var payType = parseInt($('#payType').val());
         var scid = getLocalCache("scid");
         var openid = getLocalCache("openid");
@@ -423,7 +424,7 @@ jQuery.extend({
                 if (superOrderId != null && superOrderId.length > 0) {
                     cart.emptyCart(mode);
                     //window.location.href = "order.html?soid=" + superOrderId;
-                    if (payType == 2) {
+                    if (payType == 2&&paymoenry_time>0) {
                         window.location.href = "pay.php?soid=" + superOrderId + "&scid=" + scid + "&openid=" + openid + "&ticket=" + ticket + "&env=" + env;
                     } else {
                         window.location.href = "msg_success.html?";

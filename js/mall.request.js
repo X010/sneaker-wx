@@ -332,7 +332,7 @@ jQuery.extend({
 
         console.log(card_list_str);
 
-        var card_ceck=$("card_no").val();
+        var card_ceck=$("#card_no").val();
         if(card_ceck!=null&&card_ceck.length>0)
         {
             $.alert("请先添加卡密");

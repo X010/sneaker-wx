@@ -332,6 +332,12 @@ jQuery.extend({
 
         console.log(card_list_str);
 
+        var card_ceck=$("card_no").val();
+        if(card_ceck!=null&&card_ceck.length>0)
+        {
+            $.alert("请先添加卡密");
+            return;
+        }
 
         var orderItem = [];
         if (cartOrderItem == null || cartOrderItem.items == null || cartOrderItem.items.length <= 0) {

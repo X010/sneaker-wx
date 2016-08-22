@@ -405,7 +405,7 @@ jQuery.extend({
             "use_express_money": post_logistics_money,
             "card_list_str":card_list_str,
         };
-        var paymoenry_time=parseFloat($("#confirm-total").val());
+        var paymoenry_time=parseFloat($("#confirm-total").html());
         var payType = parseInt($('#payType').val());
         var scid = getLocalCache("scid");
         var openid = getLocalCache("openid");
